@@ -1,6 +1,7 @@
-# Browser
+# Description
 
-A framework for reusable components to render and modify SocialDB by Near Social.
+This project is a website in which B.O.S (Blockchain Operating System) tool from NEAR Protocol is used, which serves to create and deploy 100% decentralized Frontends. In this project, an addition is being made to be able to use the tools found in the GEAR-JS packages to have connection and interaction with the VARA Network and to be able to generate useful components for users by deploying them on the blockchain and being able to consume and use them within this gateway.
+
 
 ## Setup & Development
 
