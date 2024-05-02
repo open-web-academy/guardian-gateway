@@ -157,8 +157,8 @@ export function DesktopNavigation(props) {
           </NavigationButton>
           <Button onClick={()=>tryLogin()}>Login</Button>
            */}
-          <Button variant="success" onClick={()=>testReadState()}>ReadState</Button>
-          <Button variant="success" onClick={()=>testSignTransaction()}>SignTransaction</Button>
+          <Button variant="success" className="mx-2" onClick={()=>testReadState()}>ReadState</Button>
+          <Button variant="success" className="mx-2" disabled={varaAccount.account==undefined} onClick={()=>testSignTransaction()}>SignTransaction</Button>
         </div>
         <div className="user-section">
           <DevActionsDropdown {...props} />

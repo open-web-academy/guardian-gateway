@@ -15,7 +15,7 @@ export function WalletModal(props) {
             {name: 'Polkadot JS', accounts: varaAccount.accounts.filter((obj)=> obj.meta.source=='polkadot-js'), img: 'https://avatars.githubusercontent.com/u/33775474?s=280&v=4'},
             {name: 'Talisman', accounts: varaAccount.accounts.filter((obj)=> obj.meta.source=='talisman'), img: 'https://styles.redditmedia.com/t5_53lwgb/styles/communityIcon_qrqgjbj15ama1.png'},
             {name: 'SubWallet', accounts: varaAccount.accounts.filter((obj)=> obj.meta.source=='subwallet'), img: 'https://alephzero.org/storage/subwallet-aleph-zero-logo-1667768016nhRkI.jpeg'},
-            {name: 'Enkrypt', accounts: varaAccount.accounts.filter((obj)=> obj.meta.source=='enkrypt'), img: 'https://avatars.githubusercontent.com/u/47159500?s=280&v=4'}
+            {name: 'Enkrypt', accounts: varaAccount.accounts.filter((obj)=> obj.meta.source=='enkrypt-js'), img: 'https://avatars.githubusercontent.com/u/47159500?s=280&v=4'}
         ])
     }
   },[varaAccount])
