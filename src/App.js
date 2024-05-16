@@ -34,7 +34,9 @@ import { NetworkId, Widgets } from "./data/widgets";
 import { useEthersProviderContext } from "./data/web3";
 import SignInPage from "./pages/SignInPage";
 import { isValidAttribute } from "dompurify";
-import { ApiProvider, AccountProvider } from "@gear-js/react-hooks";
+import { ApiProvider, AccountProvider, useAccount as varaAccount } from "@gear-js/react-hooks";
+import { GearWalletButton } from "./components/common/buttons/gearWalletButton"
+import { VaraProvider } from "./components/navigation/VaraProvider";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://social.near-docs.io/";
@@ -48,12 +50,13 @@ function App(props) {
   const [widgetSrc, setWidgetSrc] = useState(null);
 
   const ethersProviderContext = useEthersProviderContext();
-
   const { initNear } = useInitNear();
   const near = useNear();
   const account = useAccount();
 
   const accountId = account.accountId;
+
+
 
   useEffect(() => {
     initNear &&
@@ -90,6 +93,15 @@ function App(props) {
             }
             return <Link {...props} />;
           },
+          GearWalletButton: (props) => {
+            return <GearWalletButton {...props} />;
+          },
+          VaraProvider: (props) =>{
+            return <VaraProvider {...props} />;
+          },
+          Test: () => {
+            return window.localStorage.getItem('account')
+          }
         },
         config: {
           defaultFinality: undefined,
