@@ -14,7 +14,7 @@ import { ProgramMetadata } from "@gear-js/api";
 import { web3FromSource } from "@polkadot/extension-dapp";
 import { Button } from "react-bootstrap";
 import logo from "../../../images/BOS-vara-logo.png"
-import {GearWalletButton} from "../../common/buttons/gearWalletButton"
+import {GearWalletButton} from "../../varaNetwork/gearWalletButton"
 
 const StyledNavigation = styled.div`
   position: sticky;
