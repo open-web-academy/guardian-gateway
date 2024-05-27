@@ -23,7 +23,6 @@ export function WalletModal(props) {
   },[varaAccount])
 
   const handleSelectWallet = (wallet) => {
-    console.log(walletInformation.filter((obj) => obj.name==wallet))
     setSelectedWallet(walletInformation.filter((obj) => obj.name==wallet)[0])
   }
 

@@ -9,7 +9,6 @@ import { useStore } from './state'
 export function GearWalletButton() {
   const varaAccount = useAccount();
   const { account, setAccount } = useStore()
-  console.log(account)
   const [modalShow, setModalShow] = React.useState(false);
   const [loggedAccount, setLoggedAccount] = useState(undefined);
   useEffect(() => {
@@ -28,7 +27,6 @@ export function GearWalletButton() {
     setAccount(undefined)
   };
 
-  console.log("cuentas boton", varaAccount);
 
   return (
     <>
@@ -84,7 +82,6 @@ export function GearWalletButton() {
             <Identicon value={loggedAccount.address} size={24} theme={"polkadot"}/>
             <p className="fw-semibold m-0">{loggedAccount.meta.name}</p>
           </Button>
-          <p>{account? account.address : 'No logged'}</p>
           {/* <p>{loggedAccount.balance.value} Vara</p> */}
         </div>
       ) : (

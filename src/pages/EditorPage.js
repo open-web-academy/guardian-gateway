@@ -78,9 +78,6 @@ export default function EditorPage(props) {
   const near = useNear();
   const cache = useCache();
   const accountId = useAccountId();
-  // const varaApi = useApi();
-  // const varaAccount2 = useAccount();
-  //console.log(varaAccount)
 
   const [tab, setTab] = useState(Tab.Editor);
   const [layout, setLayoutState] = useState(
@@ -96,7 +93,6 @@ export default function EditorPage(props) {
 
   const monaco = useMonaco();
   
-  //console.log(vmTypesDeclaration)
 
   useEffect(() => {
     if (monaco) {
@@ -104,7 +100,6 @@ export default function EditorPage(props) {
       monaco.languages.typescript.javascriptDefaults.addExtraLib(
         vmTypesDeclaration
       );
-      console.log(monaco.languages.typescript.javascriptDefaults.getExtraLibs())
     }
   }, [monaco]);
 

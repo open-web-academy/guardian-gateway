@@ -23,7 +23,6 @@ export const Interaction = ({ trigger, children }) => {
         metadata
       )
     ).toJSON();
-    console.log("Interno", info);
     return info;
   };
 

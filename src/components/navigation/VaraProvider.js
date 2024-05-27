@@ -15,7 +15,6 @@ export const VaraProvider = ({ trigger, children }) => {
     varaApi.api.programState
       .read({ programId: programIDFT, payload: "" }, metadata)
       .then((result) => {
-        console.log(result.toJSON());
         alert(JSON.stringify(result.toJSON()));
       })
       .catch((err) => console.log("error", err));

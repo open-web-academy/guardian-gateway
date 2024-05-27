@@ -24,7 +24,6 @@ export function GearWalletButton() {
     varaAccount.logout();
   };
 
-  console.log("cuentas boton", varaAccount);
 
   return (
     <>
