@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAccount } from "@gear-js/react-hooks";
-import { WalletModal } from "../walletSelectorModal";
+import { WalletModal } from "./walletSelectorModal";
 import Button from 'react-bootstrap/Button';
 import Identicon from '@polkadot/react-identicon';
-
+import { useStore } from './state'
 
 export function GearWalletButton() {
   const varaAccount = useAccount();
+  const { account, setAccount } = useStore()
   const [modalShow, setModalShow] = React.useState(false);
   const [loggedAccount, setLoggedAccount] = useState(undefined);
   useEffect(() => {
     if(varaAccount.isAccountReady){
         setLoggedAccount(varaAccount.account);
+        setAccount(varaAccount.account)
     }
   }, [varaAccount]);
 
@@ -22,6 +24,7 @@ export function GearWalletButton() {
 
   const logout = async () => {
     varaAccount.logout();
+    setAccount(undefined)
   };
 
 

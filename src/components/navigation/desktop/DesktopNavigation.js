@@ -14,7 +14,7 @@ import { ProgramMetadata } from "@gear-js/api";
 import { web3FromSource } from "@polkadot/extension-dapp";
 import { Button } from "react-bootstrap";
 import logo from "../../../images/BOS-vara-logo.png"
-import {GearWalletButton} from "../../common/buttons/gearWalletButton"
+import {GearWalletButton} from "../../varaNetwork/gearWalletButton"
 
 const StyledNavigation = styled.div`
   position: sticky;
@@ -76,14 +76,10 @@ export function DesktopNavigation(props) {
   const varaAccount = useAccount()
   const varaApi = useApi()
   const tryLogin = () => {
-    console.log(varaAccount)
-    console.log(varaAccount.accounts)
     varaAccount.login(varaAccount.accounts[0])
     console.log("variable local",varaAccount)
   }
   const logs = () =>{
-    console.log("account",varaAccount)
-    console.log("api",varaApi)
   }
   const testReadState = () =>{
     const programIDFT = "0x4c2e3903604069a39a82540bbdcae9fe02d19541cf1212ad89a5db58d2b90b25"
@@ -92,7 +88,6 @@ export function DesktopNavigation(props) {
     varaApi.api.programState
       .read({ programId: programIDFT,payload:"" }, metadata)
       .then((result) => {
-        console.log(result.toJSON())
         alert(JSON.stringify(result.toJSON()))
       })
       .catch((err) => console.log("error",err));
@@ -150,15 +145,6 @@ export function DesktopNavigation(props) {
           <NavigationButton route="/">Home</NavigationButton>
           <NavigationButton route="/edit">Editor</NavigationButton>
           <GearWalletButton></GearWalletButton>
-          {/* <button onClick={()=>testLogout()}>Logout</button> */}
-          {/* <NavigationButton href={props.documentationHref}>
-            Docs
-            <ArrowUpRight />
-          </NavigationButton>
-          <Button onClick={()=>tryLogin()}>Login</Button>
-           */}
-          <Button variant="success" className="mx-2" onClick={()=>testReadState()}>ReadState</Button>
-          <Button variant="success" className="mx-2" disabled={varaAccount.account==undefined} onClick={()=>testSignTransaction()}>SignTransaction</Button>
         </div>
         <div className="user-section">
           <DevActionsDropdown {...props} />

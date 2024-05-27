@@ -3,8 +3,10 @@ import { useAccount } from "@gear-js/react-hooks";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Identicon from '@polkadot/react-identicon';
+import { useStore } from './state';
 
 export function WalletModal(props) {
+  const { setAccount } = useStore()
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [walletInformation, setWalletInformation] = useState([])
 
@@ -30,6 +32,7 @@ export function WalletModal(props) {
 
   const handleLogin = (account) => {
     varaAccount.login(account);
+    setAccount(account)
     setWalletInformation([])
     setSelectedWallet([])
     props.onHide()

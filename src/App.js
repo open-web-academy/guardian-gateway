@@ -34,7 +34,11 @@ import { NetworkId, Widgets } from "./data/widgets";
 import { useEthersProviderContext } from "./data/web3";
 import SignInPage from "./pages/SignInPage";
 import { isValidAttribute } from "dompurify";
-import { ApiProvider, AccountProvider } from "@gear-js/react-hooks";
+import { ApiProvider, AccountProvider, useAccount as varaAccount } from "@gear-js/react-hooks";
+import { GearWalletButton } from "./components/varaNetwork/gearWalletButton"
+import { VaraProvider } from "./components/navigation/VaraProvider";
+import { VaraNetwork } from './components/varaNetwork/VaraNetwork'
+import {ReadState} from './components/varaNetwork/ReadState'
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://social.near-docs.io/";
@@ -48,12 +52,13 @@ function App(props) {
   const [widgetSrc, setWidgetSrc] = useState(null);
 
   const ethersProviderContext = useEthersProviderContext();
-
   const { initNear } = useInitNear();
   const near = useNear();
   const account = useAccount();
 
   const accountId = account.accountId;
+
+
 
   useEffect(() => {
     initNear &&
@@ -90,6 +95,30 @@ function App(props) {
             }
             return <Link {...props} />;
           },
+          GearWalletButton: (props) => {
+            return <GearWalletButton {...props} />;
+          },
+          VaraProvider: (props) => {
+            return <VaraProvider {...props} />;
+          },
+          VaraNetwork: (props) => {
+            return <VaraNetwork {...props}/>;
+          },
+          "VaraNetwork.Account": (props) => {
+            return <VaraNetwork.Account {...props}/>;
+          },
+          "VaraNetwork.Wrapper": (props) => {
+            return <VaraNetwork.Wrapper {...props}/>;
+          },
+          "VaraNetwork.Provider": (props) => {
+            return <VaraNetwork.Provider {...props}/>;
+          },
+          "VaraNetwork.Interaction": (props) => {
+            return <VaraNetwork.Interaction {...props}/>;
+          },
+          "VaraNetwork.ReadState": (props) => {
+            return <VaraNetwork.ReadState {...props}/>;
+          }
         },
         config: {
           defaultFinality: undefined,
