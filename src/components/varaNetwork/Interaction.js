@@ -13,7 +13,7 @@ export const Interaction = ({ trigger, children }) => {
   };
 
   const getAccountInfo = () =>{
-    return varaAccount
+    return varaAccount.account
   }
 
   const readState = async (programId, meta, params) => {
