@@ -12,6 +12,10 @@ export const Interaction = ({ trigger, children }) => {
     return data;
   };
 
+  const getAccountInfo = () =>{
+    return varaAccount.account
+  }
+
   const readState = async (programId, meta, params) => {
     // const programIDFT =
     //   "0x4c2e3903604069a39a82540bbdcae9fe02d19541cf1212ad89a5db58d2b90b25";
@@ -45,7 +49,7 @@ export const Interaction = ({ trigger, children }) => {
     };
     const transferExtrinsic = await varaApi.api.message.send(message, metadata);
     const injector = await web3FromSource(varaAccount.account.meta.source);
-    transferExtrinsic
+     transferExtrinsic
       .signAndSend(
         varaAccount.account?.address ?? console.log("no hay cuenta"),
         { signer: injector.signer },
@@ -88,8 +92,7 @@ export const Interaction = ({ trigger, children }) => {
             }
           }
         }
-      )
-      .catch((err) => {
+      ).catch((err) => {
         console.log(":( transaction failed", err);
         Swal.fire({
           toast: true,
@@ -112,6 +115,7 @@ export const Interaction = ({ trigger, children }) => {
     testFunction,
     readState,
     signTransaction,
+    getAccountInfo,
   };
   return (
     <>
