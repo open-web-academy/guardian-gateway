@@ -118,6 +118,9 @@ function App(props) {
           },
           "VaraNetwork.ReadState": (props) => {
             return <VaraNetwork.ReadState {...props}/>;
+          },
+          "VaraNetwork.Identicon": (props) => {
+            return <VaraNetwork.Identicon {...props}/>
           }
         },
         config: {
