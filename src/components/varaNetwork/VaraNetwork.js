@@ -4,6 +4,7 @@ import {Wrapper} from './Logged'
 import {Provider} from './Test'
 import {Interaction} from './Interaction'
 import { ReadState } from './ReadState'
+import {IdenticonVara} from './Identicon'
 
 export const VaraNetwork = ({ children }) => {};
 
@@ -12,3 +13,4 @@ VaraNetwork.Wrapper = Wrapper
 VaraNetwork.Provider = Provider
 VaraNetwork.Interaction = Interaction
 VaraNetwork.ReadState = ReadState
+VaraNetwork.Identicon = IdenticonVara
