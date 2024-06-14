@@ -58,7 +58,15 @@ Start development version:
 yarn start
 ```
 
+## 
+
 ## Widget example
+
+### [Documentation for the creation of components in VARA Network + Blockchain Operating System](https://github.com/open-web-academy/VARA-Network-BOS-Components/blob/main/Documentation%20for%20the%20creation%20of%20components%20in%20VARA%20Network%20%2B%20Blockchain%20Operating%20System.pdf)
+
+If you want to see a complete implementation of VARA Network + BOS with a Fungible token contract you can see the following link.
+
+[Component development tutorial for interaction with FT contract on VARA + BOS](https://github.com/open-web-academy/VARA-Network-BOS-Components/blob/main/Component%20development%20tutorial%20for%20interaction%20with%20FT%20contract%20on%20VARA%20%2B%20BOS.pdf)
 
 ### Basic interaction with FT contract
 
@@ -185,3 +193,7 @@ return (
   </>
 );
 ```
+
+### More components
+- [FT Example](https://github.com/open-web-academy/VARA-Network-BOS-Components/blob/main/FTContractExample.jsx)
+- [NFT Example](https://github.com/open-web-academy/VARA-Network-BOS-Components/blob/main/NFTExample.jsx)
