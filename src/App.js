@@ -39,6 +39,7 @@ import { GearWalletButton } from "./components/varaNetwork/gearWalletButton"
 import { VaraProvider } from "./components/navigation/VaraProvider";
 import { VaraNetwork } from './components/varaNetwork/VaraNetwork'
 import {ReadState} from './components/varaNetwork/ReadState'
+import Main from './components/documentation/Main'
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://social.near-docs.io/";
@@ -219,6 +220,11 @@ function App(props) {
                 <Route path={"/edit/:widgetSrc*"}>
                   <NavigationWrapper {...passProps} />
                   <EditorPage {...passProps} />
+                  <Footer/>
+                </Route>
+                <Route path={"/docs/:docsRoute*"}>
+                  <NavigationWrapper {...passProps} />
+                  <Main {...passProps} />
                   <Footer/>
                 </Route>
                 <Route path={"/:widgetSrc*"}>
