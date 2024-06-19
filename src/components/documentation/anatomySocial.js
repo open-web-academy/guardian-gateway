@@ -5,7 +5,7 @@ import { default as sample } from "./codeblocks";
 export default function AnaSocial() {
   return (
     <div>
-      <h1>Social Interactions</h1>
+      <h3>Social Interactions</h3>
 
       <p>
         NEAR components can natively communicate with the SocialDB smart
@@ -18,7 +18,7 @@ export default function AnaSocial() {
       </p>
       <hr className="my-5" />
 
-      <h2>Social.get</h2>
+      <h4>Social.get</h4>
       <p>
         Social.get queries a key from the SocialDB contract and returns the
         data. The key being queried can contain wildcards.
@@ -46,7 +46,7 @@ export default function AnaSocial() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -77,7 +77,7 @@ export default function AnaSocial() {
           </tr>
         </tbody>
       </table>
-      <h5>Options Object</h5>
+      <h6>Options Object</h6>
       <ul>
         <li>
           <strong>subscribe</strong> (optional): if true, the data will be
@@ -109,7 +109,7 @@ export default function AnaSocial() {
         in a virtual machine.
       </p>
       <hr className="my-5" />
-      <h2>Social.getr</h2>
+      <h4>Social.getr</h4>
       <p>
         Social.getr is just a wrapper helper for Social.get, it appends ** to
         each of the path pattern.
@@ -122,7 +122,7 @@ export default function AnaSocial() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -153,7 +153,7 @@ export default function AnaSocial() {
           </tr>
         </tbody>
       </table>
-      <h5>Options Object</h5>
+      <h6>Options Object</h6>
       <ul>
         <li>
           <strong>subscribe</strong> (optional): if true, the data will be
@@ -166,7 +166,7 @@ export default function AnaSocial() {
       </ul>
 
       <hr className="my-5" />
-      <h2>Social.keys</h2>
+      <h4>Social.keys</h4>
       <p>
         The keys method allows to get the list of keys that match a pattern.
         It's useful for querying the data without reading values.
@@ -183,7 +183,7 @@ export default function AnaSocial() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -214,7 +214,7 @@ export default function AnaSocial() {
           </tr>
         </tbody>
       </table>
-      <h5>Options Object</h5>
+      <h6>Options Object</h6>
       <ul>
         <li>
           <strong>subscribe</strong> (optional): if true, the data will be
@@ -235,7 +235,7 @@ export default function AnaSocial() {
       </ul>
 
       <hr className="my-5" />
-      <h2>Social.set</h2>
+      <h4>Social.set</h4>
       <p>
         Takes a data object and commits it to SocialDB. The data object can
         contain multiple keys, and each key can contain multiple values.
@@ -258,7 +258,7 @@ export default function AnaSocial() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -286,7 +286,7 @@ export default function AnaSocial() {
           </tr>
         </tbody>
       </table>
-      <h5>Options Object</h5>
+      <h6>Options Object</h6>
       <ul>
         <li>
           <strong>force</strong> (optional): whether to overwrite the data.
@@ -303,7 +303,7 @@ export default function AnaSocial() {
       </ul>
 
       <hr className="my-5" />
-      <h2>Social.index</h2>
+      <h4>Social.index</h4>
       <p>
         NEAR Social readily provides an indexer - a service that listens to
         actions in SocialDB, and caches them so they can be retrieved without
@@ -317,7 +317,7 @@ export default function AnaSocial() {
       </p>
 
       <hr className="my-2" />
-      <h3>Indexing an Action</h3>
+      <h5>Indexing an Action</h5>
       <p>
         To index an action we need to add the index key to the data being saved,
         within the index key we will save the action being indexed, alongside a
@@ -331,7 +331,7 @@ export default function AnaSocial() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Standards</h4>
+      <h6>Standards</h6>
       <p>
         <strong>Indexing a Post</strong>: To index a post, the standard is to
         save the action post, with {`{key: "main", value: {type: "md"}}`}.
@@ -359,7 +359,7 @@ export default function AnaSocial() {
       />
 
       <hr className="my-2" />
-      <h3>Retrieving Indexed Actions</h3>
+      <h5>Retrieving Indexed Actions</h5>
       <p>
         To retrieve indexed actions we use the Social.index method. It takes the
         action and the key as arguments, and returns an array of all the indexed
@@ -374,7 +374,7 @@ export default function AnaSocial() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -408,7 +408,7 @@ export default function AnaSocial() {
           </tr>
         </tbody>
       </table>
-      <h5>Options Object</h5>
+      <h6>Options Object</h6>
       <ul>
         <li>
           <strong>subscribe</strong> (optional): if true, the data will be

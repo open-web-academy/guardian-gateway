@@ -5,7 +5,7 @@ import { default as sample } from "./codeblocks";
 export default function AnaNear() {
   return (
     <div>
-      <h1>Interacting with Near</h1>
+      <h3>Interacting with Near</h3>
       <p>
         The components can use the Near object to interact with smart contracts
         in the NEAR blockchain. There are three methods:
@@ -18,7 +18,7 @@ export default function AnaNear() {
       </ul>
       <hr className="my-5" />
 
-      <h2>Near.view</h2>
+      <h4>Near.view</h4>
       <p>Queries a read-only method from a NEAR smart contract, returning:</p>
       <ul>
         <li>null: If the query is still being processed</li>
@@ -39,7 +39,7 @@ export default function AnaNear() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -86,7 +86,7 @@ export default function AnaNear() {
           </tr>
         </tbody>
       </table>
-      <h4>Avoiding a Common Pitfall:</h4>
+      <h6>Avoiding a Common Pitfall:</h6>
       <p>
         If you want to initialize the state with the result of a Near.view call,
         be sure to check first that the value was obtained, to avoid
@@ -114,7 +114,7 @@ export default function AnaNear() {
       />
       <hr className="my-5" />
 
-      <h2>Near.call</h2>
+      <h4>Near.call</h4>
       <p>
         Calls a smart contract method from the blockchain. Since a transaction
         needs to be signed, the user must be logged in in order to make the
@@ -128,7 +128,7 @@ export default function AnaNear() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -182,7 +182,7 @@ export default function AnaNear() {
       </table>
       <hr className="my-5" />
 
-      <h2>Near.block</h2>
+      <h4>Near.block</h4>
       <p>Queries a block from the blockchain.</p>
       <CopyBlock
         language={"jsx"}
@@ -192,7 +192,7 @@ export default function AnaNear() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>

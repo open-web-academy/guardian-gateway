@@ -5,7 +5,7 @@ import { default as sample } from "./codeblocks";
 export default function AnaWebBrowser() {
   return (
     <div>
-      <h1>Web Browser Methods</h1>
+      <h3>Web Browser Methods</h3>
       <p>
         NEAR Components have access to classic web methods that enable them to:
       </p>
@@ -17,7 +17,7 @@ export default function AnaWebBrowser() {
       </ul>
       <hr className="my-5" />
 
-      <h2>Fetch</h2>
+      <h4>Fetch</h4>
       <p>
         <code>fetch</code> allows to fetch data from the URL. It acts like a
         hook. It's a wrapper around the fetch function from the browser behind
@@ -43,7 +43,7 @@ export default function AnaWebBrowser() {
         codeBlock
       />
 
-      <h3>Async Version</h3>
+      <h5>Async Version</h5>
       <p>
         <code>asyncFetch</code> is the async version of <code>fetch</code>,
         meaning that it returns a promise instead of a value.
@@ -58,7 +58,7 @@ export default function AnaWebBrowser() {
       />
       <hr className="my-5" />
 
-      <h2>Cache</h2>
+      <h4>Cache</h4>
       <p>
         The <code>useCache</code> hook takes a promise through a generator
         function, fetches the data and caches it. It can be used to easily use
@@ -82,7 +82,7 @@ export default function AnaWebBrowser() {
         wrapLines={true}
         codeBlock
       />
-      <h4>Parameters</h4>
+      <h6>Parameters</h6>
       <table class="table">
         <thead>
           <tr>
@@ -116,13 +116,13 @@ export default function AnaWebBrowser() {
           </tr>
         </tbody>
       </table>
-      <h4>OPTIONS OBJECT</h4>
+      <h6>Options object</h6>
       <p>
         <strong>subscribe</strong> (optional): if true, the data refreshes
         periodically by invalidating cache.
       </p>
       <hr className="my-5" />
-      <h2>LocalStorage</h2>
+      <h4>LocalStorage</h4>
       <p>
         NEAR Components have access to a simulated localStorage through the{" "}
         <code>Storage</code> object:
@@ -150,8 +150,8 @@ export default function AnaWebBrowser() {
         codeBlock
       />
 
-      <h3>Parameters</h3>
-      <h4>Storage.get</h4>
+      <h5>Parameters</h5>
+      <h6>Storage.get</h6>
       <p>
         <code>Storage.get(key, widgetSrc?)</code> - returns the public value for
         a given key under the given <code>widgetSrc</code> or the current
@@ -182,8 +182,8 @@ export default function AnaWebBrowser() {
           </tr>
         </tbody>
       </table>
-
-      <h4>Storage.set</h4>
+      <hr className="my-2" />
+      <h6>Storage.set</h6>
       <p>
         <code>Storage.set(key, value)</code> - sets the public value for a given
         key under the current widget. The value will be public, so other widgets
@@ -213,8 +213,8 @@ export default function AnaWebBrowser() {
           </tr>
         </tbody>
       </table>
-
-      <h4>Storage.privateGet</h4>
+      <hr className="my-2" />
+      <h6>Storage.privateGet</h6>
       <p>
         <code>Storage.privateGet(key)</code> - returns the private value for a
         given key under the current component.
@@ -237,8 +237,8 @@ export default function AnaWebBrowser() {
           </tr>
         </tbody>
       </table>
-
-      <h4>Storage.privateSet</h4>
+      <hr className="my-2" />
+      <h6>Storage.privateSet</h6>
       <p>
         <code>Storage.privateSet(key, value)</code> - sets the private value for
         a given key under the current component. The value is private, only the
@@ -269,7 +269,7 @@ export default function AnaWebBrowser() {
         </tbody>
       </table>
       <hr className="my-5" />
-      <h2>Clipboard</h2>
+      <h4>Clipboard</h4>
       <p>
         NEAR Components can write data to the system's clipboard through the{" "}
         <code>clipboard.writeText</code> method.

@@ -5,7 +5,7 @@ import { default as sample } from "./codeblocks";
 export default function AnaBasics() {
   return (
     <div>
-      <h1>Basics</h1>
+      <h3>Basics</h3>
       <p>
         Borrowing from React, Near Components use hooks such as{" "}
         <code>useState</code> and <code>useEffect</code> to handle the state's
@@ -24,7 +24,7 @@ export default function AnaBasics() {
       </p>
       <hr className="my-5" />
 
-      <h2>State</h2>
+      <h4>State</h4>
       <p>
         To handle the component's state you can use <code>useState</code> hook.
         The <code>useState</code> hook returns a tuple of two values: the
@@ -45,7 +45,7 @@ export default function AnaBasics() {
       </p>
       <hr className="my-5" />
 
-      <h2>Props</h2>
+      <h4>Props</h4>
       <p>
         Each component has access to a local variable named <code>props</code>{" "}
         which holds the properties received as input when the component is
@@ -61,7 +61,7 @@ export default function AnaBasics() {
       />
       <hr className="my-5" />
 
-      <h2>useEffect Hook</h2>
+      <h4>useEffect Hook</h4>
       <p>
         The <code>useEffect</code> hook is used to handle side effects. It will
         execute each time one of the dependencies changes.
@@ -76,7 +76,7 @@ export default function AnaBasics() {
       />
       <hr className="my-5" />
 
-      <h2>Import</h2>
+      <h4>Import</h4>
       <p>
         Components can import functions from other components. This is useful to
         reuse code and to create libraries of components.

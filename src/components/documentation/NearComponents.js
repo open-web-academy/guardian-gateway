@@ -6,7 +6,7 @@ import { default as sample } from "./codeblocks";
 export default function NearComponents(props) {
   return (
     <div>
-      <h1>What are NEAR Components?</h1>
+      <h3>What are NEAR Components?</h3>
       <p>
         NEAR Components are a new way to build web applications. They are
         composable, reusable, and decentralized.
@@ -18,7 +18,7 @@ export default function NearComponents(props) {
       />
       <hr className="my-5" />
 
-      <h2>Familiar to Web Developers</h2>
+      <h4>Familiar to Web Developers</h4>
       <p>
         NEAR Components are built on top of React Components, meaning that they:
       </p>
@@ -50,7 +50,7 @@ export default function NearComponents(props) {
 
       <hr className="my-5" />
 
-      <h2>NEAR Native</h2>
+      <h4>NEAR Native</h4>
       <p>
         NEAR Components can readily interact with smart contracts in the NEAR
         Blockchain. While view methods are free to query by anyone, call methods
@@ -67,7 +67,7 @@ export default function NearComponents(props) {
 
       <hr className="my-5" />
 
-      <h2>Social from the Get-Go</h2>
+      <h4>Social from the Get-Go</h4>
       <p>
         NEAR Components are easily integrated with NEAR Social, a social network
         built on NEAR.
@@ -83,7 +83,7 @@ export default function NearComponents(props) {
 
       <hr className="my-5" />
 
-      <h2>Fully On-Chain & Easily Composable</h2>
+      <h4>Fully On-Chain & Easily Composable</h4>
       <p>
         Leveraging the cheap storage and computation of the NEAR Blockchain,
         NEAR Components' code is stored fully on-chain in the SocialDB smart
@@ -113,13 +113,13 @@ export default function NearComponents(props) {
       />
       <hr className="my-5" />
 
-      <h2>Multi-Chain by Design</h2>
+      <h4>Multi-Chain by Design</h4>
       <p>
         NEAR Components can easily interact with Ethereum-compatible
         blockchains, helping to easily create decentralized frontends for
         multi-chain applications.
       </p>
-      <h4>Link to an example: <a href="https://near.social/mob.near/widget/WidgetSource?src=zavodil.near/widget/Lido">Lido Component</a></h4>
+      <h5>Link to an example: <a href="https://near.social/mob.near/widget/WidgetSource?src=zavodil.near/widget/Lido">Lido Component</a></h5>
     </div>
   );
 }

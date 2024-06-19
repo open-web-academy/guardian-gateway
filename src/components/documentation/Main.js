@@ -61,21 +61,6 @@ export default function main(props) {
             <Nav.Link><Link className="link-dark" to="/docs">What is BOS?</Link></Nav.Link>
             <Nav.Link><Link className="link-dark" to="/docs/what-is">What is a Component?</Link></Nav.Link>
             <NavDropdown
-              title="Building Web3 Components"
-              id="collapsible-nav-dropdown"
-            >
-              <NavDropdown.Item>
-                <Link className="link-dark" to="/docs/dev-environment">
-                  Choose your Dev Environment
-                </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link className="link-dark" to="/docs/bos-gateway">
-                  Using components on WebApps
-                </Link>
-              </NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown
               title="Anatomy of a Component"
               id="collapsible-nav-dropdown"
             >
