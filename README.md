@@ -2,6 +2,10 @@
 
 This project is a website in which B.O.S (Blockchain Operating System) tool from NEAR Protocol is used, which serves to create and deploy 100% decentralized Frontends. In this project, an addition is being made to be able to use the tools found in the GEAR-JS packages to have connection and interaction with the VARA Network and to be able to generate useful components for users by deploying them on the blockchain and being able to consume and use them within this gateway.
 
+<p style = 'text-align:center;'>
+<img src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/BOS-vara-logo.png" alt="VARA+BOS">
+</p>
+
 ## What is Blockchain operating system?
 Blockchain Operating System (BOS) is a blockchain operating system developed by the NEAR protocol that provides a development environment for creating secure, scalable, and user-friendly decentralized applications (dApps). This system stands out as a pioneering category in the industry and serves as a shared layer that facilitates the exploration and discovery of open web experiences, being compatible with any blockchain.
 
@@ -10,6 +14,10 @@ BOS is a real alternative to centralized platform systems and is available at ne
 BOS eliminates the need to choose between decentralization and visibility. Both developers and users can enjoy the best of both worlds, whether they are exploring web3 experiences for the first time or building an open web.
 
 To accelerate the development of web3 applications, BOS provides a complete set of tools and capabilities that allow developers to get started quickly. These tools enable the rapid creation of open web applications, seamlessly onboard users, receive feedback, and enhance discoverability.
+
+<p style = 'text-align:center;'>
+<img src="https://pages.near.org/wp-content/uploads/2023/04/bos-social.png" alt="VARA+BOS"">
+</p>
 
 ## BOS Features
 1. Modularity: BOS is divided into a series of interconnected modules that can be reused and combined to create different applications.

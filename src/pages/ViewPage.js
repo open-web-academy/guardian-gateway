@@ -16,6 +16,7 @@ export default function ViewPage(props) {
     widgetSrc ||
     window?.InjectedConfig?.defaultWidget ||
     props.widgets.default;
+
   const showMenu = !window?.InjectedConfig?.hideMenu;
   const setWidgetSrc = props.setWidgetSrc;
   const viewSourceWidget = props.widgets.viewSource;
@@ -44,6 +45,7 @@ export default function ViewPage(props) {
               view: src,
             }
       );
+      console.log(src)
     }, 1);
   }, [src, query, setWidgetSrc, viewSourceWidget]);
 
