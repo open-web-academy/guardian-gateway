@@ -23,12 +23,6 @@ export default function main(props) {
     case "what-is":
       content = <NearComponents />;
       break;
-    case "dev-environment":
-      content = <DevEnvironment />;
-      break;
-    case "bos-gateway":
-      content = <WebApps />;
-      break;
     case "basics":
       content = <AnaBasics />;
       break;
