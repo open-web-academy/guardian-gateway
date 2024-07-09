@@ -6,6 +6,7 @@ import { NearSocialLogo } from "../../icons/NearSocialLogo";
 import { NotificationWidget } from "../NotificationWidget";
 import { SignInButton } from "../SignInButton";
 import { StarButton } from "../StarButton";
+import logo from "../../../images/BOS-vara-logo.png";
 
 const StyledNavigation = styled.div`
   position: sticky;
@@ -13,17 +14,15 @@ const StyledNavigation = styled.div`
   left: 0;
   right: 0;
   width: 100%;
-  background-color: var(--slate-dark-1);
+  background-color: var(--white-light-2);
   z-index: 1000;
-  padding: 16px 24px;
+  padding: 10px 0px 0px 0px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
 
   .logo-link {
-    position: absolute;
-    left: 0;
-    right: 0;
     margin: auto;
     display: flex;
     align-items: center;
@@ -41,14 +40,22 @@ const StyledNavigation = styled.div`
     padding-right: 0;
   }
 `;
+const StyledLogo = styled.img`
+  height: 40px;
+`;
+const Banner = styled.div`
+  width: 100%;
+  background-color: var(--white-light-2);
+  background-color: var(--green-vara-1);
+  padding: 10px 0 10px 0;
+  margin: 5px 0 0 0;
+  text-align: center;
+  font-weight: 700;
+`
 
 export function Navigation(props) {
   return (
     <StyledNavigation>
-      <MobileMenuButton
-        onClick={props.onClickShowMenu}
-        currentPage={props.currentPage}
-      />
       <Link
         to="/"
         className="logo-link"
@@ -56,18 +63,11 @@ export function Navigation(props) {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       >
-        <NearSocialLogo />
+        <StyledLogo src={logo} />
       </Link>
-      {props.signedIn ? (
-        <div className="d-flex">
-          <StarButton {...props} />
-          <NotificationWidget
-            notificationButtonSrc={props.widgets.notificationButton}
-          />
-        </div>
-      ) : (
-        <SignInButton onSignIn={() => props.requestSignIn()} />
-      )}
+      <Banner>
+        <p className="m-0">For a complete experience check out this site from desktop</p>
+      </Banner>
     </StyledNavigation>
   );
 }
