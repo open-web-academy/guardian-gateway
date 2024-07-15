@@ -1838,10 +1838,10 @@
   dependencies:
     tslib "^2.1.0"
 
-"@gear-js/api@^0.36.7":
-  version "0.36.7"
-  resolved "https://registry.yarnpkg.com/@gear-js/api/-/api-0.36.7.tgz#23e484f636a06906865d7e4ffca8e68c9c9014fa"
-  integrity sha512-o0AxTAKJtoyh+Ii60CKuT0Q5wSKUeEiZXs/4nRJmeHxI+e/BTp6J+To790DunZSc3r3zA0G59Vc5tCagyVnWDQ==
+"@gear-js/api@^0.38.1":
+  version "0.38.1"
+  resolved "https://registry.yarnpkg.com/@gear-js/api/-/api-0.38.1.tgz#4a79144e59512633d4f819370354912678dcc108"
+  integrity sha512-SghbC+9Jc5YsNjuO/I3cHMlBXkUZK8OgpI7bXyP3fetQo/Ls4/cgv4JD/XX2S7Y/UpG+gSdSEXaxpU1g7OYK7A==
 
 "@gear-js/react-hooks@^0.10.3":
   version "0.10.3"
