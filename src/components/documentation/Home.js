@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 export default function Home(props) {
   return (
     <div>
-      <div >
+      <div>
         <h3>What is Blockchain Operating System?</h3>
         <p>
           Blockchain Operating System (BOS) is a blockchain operating system
@@ -39,121 +39,144 @@ export default function Home(props) {
           discoverability.
         </p>
       </div>
-        <hr className="my-5"/>
-      <div >
-      <h3>BOS Features</h3>
-      <ul>
-        <li>
-          <strong>Modularity:</strong> BOS is divided into a series of
-          interconnected modules that can be reused and combined to create
-          different applications.
-        </li>
-        <li>
-          <strong>Security:</strong> BOS uses a layered security approach to
-          protect dApps from external attacks.
-        </li>
-        <li>
-          <strong>Scalability:</strong> BOS is designed to be scalable and
-          capable of handling a large number of simultaneous transactions.
-        </li>
-        <li>
-          <strong>Flexibility:</strong> BOS is compatible with different
-          programming languages and frameworks, allowing developers to use their
-          favorite tools to create dApps.
-        </li>
-        <li>
-          <strong>Interoperability:</strong> BOS enables interoperability
-          between different blockchains, allowing dApps to interact with
-          different protocols easily and seamlessly.
-        </li>
-        <li>
-          <strong>Efficiency:</strong> BOS uses an optimized data structure and
-          an efficient consensus model to ensure high performance and fast
-          response times.
-        </li>
-      </ul>
+      <hr className="my-5" />
+      <div>
+        <h3>BOS Features</h3>
+        <ul>
+          <li>
+            <strong>Modularity:</strong> BOS is divided into a series of
+            interconnected modules that can be reused and combined to create
+            different applications.
+          </li>
+          <li>
+            <strong>Security:</strong> BOS uses a layered security approach to
+            protect dApps from external attacks.
+          </li>
+          <li>
+            <strong>Scalability:</strong> BOS is designed to be scalable and
+            capable of handling a large number of simultaneous transactions.
+          </li>
+          <li>
+            <strong>Flexibility:</strong> BOS is compatible with different
+            programming languages and frameworks, allowing developers to use
+            their favorite tools to create dApps.
+          </li>
+          <li>
+            <strong>Interoperability:</strong> BOS enables interoperability
+            between different blockchains, allowing dApps to interact with
+            different protocols easily and seamlessly.
+          </li>
+          <li>
+            <strong>Efficiency:</strong> BOS uses an optimized data structure
+            and an efficient consensus model to ensure high performance and fast
+            response times.
+          </li>
+        </ul>
       </div>
-      <hr className="my-5"/>
-      <div >
-      <h3>Pillars of BOS</h3>
-      <h4>Components / Widgets</h4>
-      <p>
-        Components or Widgets are user interfaces developed to address specific
-        problems. These frontend applications are designed by developers, and
-        their source code is accessible through a gateway. In other words, they
-        are modules designed to solve particular challenges within the BOS
-        ecosystem.
-      </p>
+      <hr className="my-5" />
+      <div>
+        <h3>Pillars of BOS</h3>
+        <h4>Components / Widgets</h4>
+        <p>
+          Components or Widgets are user interfaces developed to address
+          specific problems. These frontend applications are designed by
+          developers, and their source code is accessible through a gateway. In
+          other words, they are modules designed to solve particular challenges
+          within the BOS ecosystem.
+        </p>
 
-      <h4>Blockchains</h4>
-      <p>
-        These are the digital platforms where components can invoke functions on
-        any blockchain. Currently, BOS supports various blockchains, including
-        all networks based on EVM (Ethereum Virtual Machine) and NEAR. The
-        source code of the interfaces is stored on NEAR due to its efficient
-        capability to store HTML, CSS, and JavaScript content.
-      </p>
+        <h4>Blockchains</h4>
+        <p>
+          These are the digital platforms where components can invoke functions
+          on any blockchain. Currently, BOS supports various blockchains,
+          including all networks based on EVM (Ethereum Virtual Machine) and
+          NEAR. The source code of the interfaces is stored on NEAR due to its
+          efficient capability to store HTML, CSS, and JavaScript content.
+        </p>
 
-      <h4>Gateways</h4>
-      <p>
-        Gateways are designed to facilitate the availability of decentralized
-        frontends that run locally for any user. In summary, they act as a
-        simple means to render components in various contexts, ensuring that
-        these applications can be displayed in multiple locations in an
-        accessible manner.
-      </p>
+        <h4>Gateways</h4>
+        <p>
+          Gateways are designed to facilitate the availability of decentralized
+          frontends that run locally for any user. In summary, they act as a
+          simple means to render components in various contexts, ensuring that
+          these applications can be displayed in multiple locations in an
+          accessible manner.
+        </p>
       </div>
-      <hr className="my-5"/>
-      <div >
-      <h3>VARA Network + BOS interaction</h3>
-      <p>
-        As can be seen in the following image, the application architecture will
-        be as follows: the frontend will be deployed on the Blockchain Operating
-        System on the NEAR Protocol network, while the backend will run entirely
-        on the VARA Network. This ensures that your applications are executed in
-        a 100% decentralized manner on the blockchain.
-      </p>
-      <img className="mx-auto d-block" src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Captura%20de%20pantalla%202024-06-14%20153011.png" alt="VARA+BOS" width="400px"/>
+      <hr className="my-5" />
+      <div>
+        <h3>VARA Network + BOS interaction</h3>
+        <p>
+          As can be seen in the following image, the application architecture
+          will be as follows: the frontend will be deployed on the Blockchain
+          Operating System on the NEAR Protocol network, while the backend will
+          run entirely on the VARA Network. This ensures that your applications
+          are executed in a 100% decentralized manner on the blockchain.
+        </p>
+        <img
+          className="mx-auto d-block"
+          src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Captura%20de%20pantalla%202024-06-14%20153011.png"
+          alt="VARA+BOS"
+          width="400px"
+        />
       </div>
-      <hr className="my-5"/>
-      <div >
-      <h4>How do I deploy my component?</h4>
-      <p>
-        To deploy a component within the Blockchain Operating System, you need
-        NEAR tokens and an account on the NEAR Protocol, either on the Mainnet
-        or Testnet variant. When we want to save the code, it will be necessary
-        to cover the storage costs within the network, and this must be paid
-        with NEAR.
-      </p>
-      <p>
-        This gateway has two versions: a Mainnet version and a Testnet version
-        where you can test your components, and once they are ready, you can
-        deploy them on the Mainnet version. The links are as follows:
-      </p>
-      <ul>
-        <li>
-          Mainnet:{" "}
-          <a href="https://vara.ow.academy/" target="_blank">
-            https://vara.ow.academy/
-          </a>
-        </li>
-        <li>Testnet: To be defined</li>
-      </ul>
+      <hr className="my-5" />
+      <div>
+        <h4>How do I deploy my component?</h4>
+        <p>
+          To deploy a component within the Blockchain Operating System, you need
+          NEAR tokens and an account on the NEAR Protocol, either on the Mainnet
+          or Testnet variant. When we want to save the code, it will be
+          necessary to cover the storage costs within the network, and this must
+          be paid with NEAR.
+        </p>
+        <p>
+          This gateway has two versions: a Mainnet version and a Testnet version
+          where you can test your components, and once they are ready, you can
+          deploy them on the Mainnet version. The links are as follows:
+        </p>
+        <ul>
+          <li>
+            Mainnet:{" "}
+            <a href="https://vara.ow.academy/" target="_blank">
+              https://vara.ow.academy/
+            </a>
+          </li>
+          <li>Testnet: To be defined</li>
+        </ul>
       </div>
-      <hr className="my-5"/>
-      <div >
-      <h3>Creation of Components</h3>
-      <p>
-        For creating components that can interact with the VARA Network within
-        the Blockchain Operating System, we base the style on React programming,
-        using JavaScript, HTML5, and CSS with the possibility of using Bootstrap
-        5 for easier style management within these components.
-      </p>
-      <p>
-        To interact with the VARA Network, it is necessary to use the generated
-        elements and meet the characteristics to ensure their correct
-        functioning.
-      </p>
+      <hr className="my-5" />
+      <div>
+        <h3>Creation of Components</h3>
+        <p>
+          For creating components that can interact with the VARA Network within
+          the Blockchain Operating System, we base the style on React
+          programming, using JavaScript, HTML5, and CSS with the possibility of
+          using Bootstrap 5 for easier style management within these components.
+        </p>
+        <p>
+          To interact with the VARA Network, it is necessary to use the
+          generated elements and meet the characteristics to ensure their
+          correct functioning.
+        </p>
+      </div>
+      <hr className="my-5" />
+      <div>
+        <h3>Storage costs</h3>
+        <p>
+          Storing the components within BOS has a cost, this storage will be
+          charged to your account in NEAR Protocol.
+        </p>
+        <p>
+          Costs may vary depending on the amount of information you are sending
+          to the network. In the following image you can see the table of costs
+          per kb and its equivalent in NEAR.
+        </p>
+        <img
+          className="mx-auto d-block"
+          src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/calculation%20space%20used.png"
+          alt="VARA+BOS"
+        />
       </div>
     </div>
   );
