@@ -30,7 +30,7 @@ import {
 import Big from "big.js";
 import { NavigationWrapper } from "./components/navigation/NavigationWrapper";
 import { Footer } from "./components/navigation/Footer";
-import { NetworkId, Widgets } from "./data/widgets";
+import { NetworkId, Widgets, WssVara } from "./data/widgets";
 import { useEthersProviderContext } from "./data/web3";
 import SignInPage from "./pages/SignInPage";
 import { isValidAttribute } from "dompurify";
