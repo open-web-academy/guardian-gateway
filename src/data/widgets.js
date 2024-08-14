@@ -3,6 +3,8 @@ const TestnetDomains = {
   "127.0.0.1": true,
 };
 
+console.log(window.location.hostname)
+
 export const NetworkId = window.location.hostname in TestnetDomains ? "testnet" : "mainnet";
 
 const TestnetWidgets = {
