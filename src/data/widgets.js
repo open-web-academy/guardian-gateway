@@ -1,7 +1,7 @@
 const TestnetDomains = {
   "test.near.social": true,
   "127.0.0.1": true,
-  "domaintestnet.d3d508se6sm4gy.amplifyapp.com": true,
+  "testnet.vara.ow.academy": true,
 };
 
 console.log(window.location.hostname)
