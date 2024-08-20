@@ -1,9 +1,13 @@
 const TestnetDomains = {
   "test.near.social": true,
   "127.0.0.1": true,
+  "testnet.vara.ow.academy": true,
 };
 
+console.log(window.location.hostname)
+
 export const NetworkId = window.location.hostname in TestnetDomains ? "testnet" : "mainnet";
+export const WssVara = window.location.hostname in TestnetDomains ? "wss://testnet.vara.network" : "mainnet";
 
 const TestnetWidgets = {
   image: "eugenethedream/widget/Image",
