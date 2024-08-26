@@ -2,6 +2,7 @@ const TestnetDomains = {
   "test.near.social": true,
   "127.0.0.1": true,
   "testnet.vara.ow.academy": true,
+  "testnet.eternacode.dev": true,
 };
 
 console.log(window.location.hostname)
