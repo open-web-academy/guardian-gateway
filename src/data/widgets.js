@@ -16,7 +16,7 @@ const TestnetWidgets = {
   widgetMetadataEditor: "eugenethedream/widget/WidgetMetadataEditor",
   widgetMetadata: "eugenethedream/widget/WidgetMetadata",
   profileImage: "eugenethedream/widget/ProfileImage",
-  profilePage: "eugenethedream/widget/Profile",
+  profilePage: "syi216.testnet/widget/WelcomeProfile",
   profileName: "eugenethedream/widget/ProfileName",
   profileInlineBlock: "eugenethedream/widget/Profile",
   notificationButton: "eugenethedream/widget/NotificationButton",
