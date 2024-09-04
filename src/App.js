@@ -203,7 +203,7 @@ function App(props) {
 
   return (
     <div className="App">
-      <ApiProvider initialArgs={{ endpoint: "wss://testnet.vara.network" }}>
+      <ApiProvider initialArgs={{ endpoint: WssVara }}>
         <AccountProvider>
           <EthersProviderContext.Provider value={ethersProviderContext}>
             <Router basename={process.env.PUBLIC_URL}>
