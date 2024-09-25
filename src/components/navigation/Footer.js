@@ -15,7 +15,7 @@ font-weight: 700;
 export function Footer(){
     return(
         <StyledFooter>
-            <p className="m-0">© 2024 Open Web Academy | BOS + VARA Network</p>
+            <p className="m-0">© 2024 Open Web Academy | Eternacode</p>
         </StyledFooter>
     )
 }

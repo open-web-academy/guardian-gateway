@@ -47,7 +47,7 @@ export default function main(props) {
   return (
     <div className="pt-4">
       <Container>
-        <h2 className="mb-4">Vara + BOS Documentation</h2>
+        <h2 className="mb-4">Eternacode Documentation</h2>
       </Container>
       <Navbar bg="light" data-bs-theme="light">
         <Container>

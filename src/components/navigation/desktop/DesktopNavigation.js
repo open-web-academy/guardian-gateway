@@ -13,7 +13,7 @@ import { useAccount, useApi } from "@gear-js/react-hooks";
 import { ProgramMetadata } from "@gear-js/api";
 import { web3FromSource } from "@polkadot/extension-dapp";
 import { Button } from "react-bootstrap";
-import logo from "../../../images/BOS-vara-logo.png";
+import logo from "../../../images/ETERNACODE_LOGO.jpg";
 import { GearWalletButton } from "../../varaNetwork/gearWalletButton";
 import Swal from "sweetalert2";
 
