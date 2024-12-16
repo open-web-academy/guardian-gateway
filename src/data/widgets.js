@@ -3,6 +3,7 @@ const TestnetDomains = {
   "127.0.0.1": true,
   "testnet.vara.ow.academy": true,
   "testnet.eternacode.dev": true,
+  "localhost": true
 };
 
 console.log(window.location.hostname)
