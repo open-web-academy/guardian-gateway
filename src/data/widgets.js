@@ -3,6 +3,7 @@ const TestnetDomains = {
   "127.0.0.1": true,
   "testnet.vara.ow.academy": true,
   "testnet.eternacode.dev": true,
+  "sailsimplementation.d102raj42fpk5r.amplifyapp.com": true,
   "localhost": true
 };
 
