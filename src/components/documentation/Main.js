@@ -12,6 +12,7 @@ import AnaNativeComp from "./anatomyNativeComp";
 import AnaNear from "./anatomyNear";
 import AnaSocial from "./anatomySocial";
 import AnaWebBrowser from "./anatomyWebBrowser";
+import SailsInteraction from "./sailsInteraction";
 import WebApps from "./webApps";
 import VaraNetwork from "./varaNetwork";
 
@@ -41,6 +42,9 @@ export default function main(props) {
     case "vara-network":
       content = <VaraNetwork />;
       break;
+    case "sails-interaction":
+        content = <SailsInteraction />;
+        break;
     default:
       content = <Home />;
   }
@@ -52,35 +56,58 @@ export default function main(props) {
       <Navbar bg="light" data-bs-theme="light">
         <Container>
           <Nav className="me-auto">
-            <Nav.Link><Link className="link-dark" to="/docs">What is BOS?</Link></Nav.Link>
-            <Nav.Link><Link className="link-dark" to="/docs/what-is">What is a Component?</Link></Nav.Link>
+            <Nav.Link>
+              <Link className="link-dark" to="/docs">
+                What is BOS?
+              </Link>
+            </Nav.Link>
+            <Nav.Link>
+              <Link className="link-dark" to="/docs/what-is">
+                What is a Component?
+              </Link>
+            </Nav.Link>
             <NavDropdown
               title="Anatomy of a Component"
               id="collapsible-nav-dropdown"
             >
-              <NavDropdown.Item><Link className="link-dark" to="/docs/basics">Basics</Link></NavDropdown.Item>
               <NavDropdown.Item>
-              <Link className="link-dark" to="/docs/web-methods">
-                Web Browser Methods
+                <Link className="link-dark" to="/docs/basics">
+                  Basics
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-              <Link className="link-dark" to="/docs/builtin-components">
-                List of Native Components
+                <Link className="link-dark" to="/docs/web-methods">
+                  Web Browser Methods
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-              <Link className="link-dark" to="/docs/near">
-                Interacting with Near
+                <Link className="link-dark" to="/docs/builtin-components">
+                  List of Native Components
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-              <Link className="link-dark" to="/docs/social">
-                Social Interactions
+                <Link className="link-dark" to="/docs/near">
+                  Interacting with Near
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link className="link-dark" to="/docs/social">
+                  Social Interactions
                 </Link>
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link><Link className="link-dark" to="/docs/vara-network">VARA Network</Link></Nav.Link>
+            <NavDropdown title="VARA Network" id="collapsible-nav-dropdown">
+              <NavDropdown.Item>
+                <Link className="link-dark" to="/docs/sails-interaction">
+                  Sails Interaction
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link className="link-dark" to="/docs/vara-network">
+                  Classic Interaction (Deprecated)
+                </Link>
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Container>
       </Navbar>

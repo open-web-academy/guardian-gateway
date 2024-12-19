@@ -1,3 +1,5 @@
+import { SailsInteraction } from "../varaNetwork/sailsInteraction";
+
 export default {
     familiarWD:`const name = props.name || 'Maria';
 const [count, setCount] = useState(1);
@@ -455,5 +457,43 @@ interaction:`<VaraNetwork.Interaction
       </button>
     </>
   )}
-/>;`
+/>;`,
+SailsInteraction:`<VaraNetwork.SailsInteraction
+  trigger={({ getAccountInfo, signTransaction, sendQuery }) => (
+    <>
+      <button
+        onClick={() => {
+          const dataTransaction = {
+            contractId: contractId,
+            idl: idl,
+            serviceName: serviceName,
+            methodName: methodName,
+            args: args,
+            value: value,
+          };
+          const dataQuery = {
+            contractId: contractId,
+            idl: idl,
+            serviceName: serviceName,
+            methodName: methodName,
+            args: args,
+          };
+          const infoQuery = sendQuery(dataQuery);
+          const infoTransaction = signTransaction(dataTransaction);
+          let varaAccount = getAccountInfo();
+          infoQuery.then((res) => {
+            //Pulling the data from the contract
+            console.log(res);
+          });
+          infoTransaction.then((res) => {
+            //Pulling the response from the contract
+            console.log(res);
+          });
+        }}
+      >
+        “Button text”
+      </button>
+    </>
+  )}
+/>;`,
 };
