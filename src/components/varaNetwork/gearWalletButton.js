@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAccount } from "@gear-js/react-hooks";
-import { WalletModal } from "./walletSelectorModal";
 import Button from 'react-bootstrap/Button';
 import Identicon from '@polkadot/react-identicon';
 import { useStore } from './state'
+import { WalletModal } from '@gear-js/wallet-connect';
+import '@gear-js/vara-ui/dist/style.css';
+
 
 export function GearWalletButton() {
   const varaAccount = useAccount();
@@ -17,10 +19,6 @@ export function GearWalletButton() {
         setAccount(varaAccount.account)
     }
   }, [varaAccount]);
-
-  const basicLogin = () => {
-    varaAccount.login(varaAccount.accounts[0]);
-  };
 
   const logout = async () => {
     varaAccount.logout();
@@ -85,14 +83,11 @@ export function GearWalletButton() {
           {/* <p>{loggedAccount.balance.value} Vara</p> */}
         </div>
       ) : (
-        <Button variant="login" onClick={() => setModalShow(true)}>
-        Connect Vara Wallet
+        <Button variant="login" onClick={modalShow?() => setModalShow(false):() => setModalShow(true)}>
+        {modalShow? "Close modal" : "Connect Vara Wallet"}
         </Button>
       )}
-      <WalletModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
+      {modalShow && <WalletModal theme='vara' close={() => setModalShow(false)} />}
     </>
   );
 }

@@ -122,7 +122,10 @@ function App(props) {
           },
           "VaraNetwork.Identicon": (props) => {
             return <VaraNetwork.Identicon {...props}/>
-          }
+          },
+          "VaraNetwork.SailsInteraction": (props) => {
+            return <VaraNetwork.SailsInteraction {...props}/>
+          },
         },
         config: {
           defaultFinality: undefined,
