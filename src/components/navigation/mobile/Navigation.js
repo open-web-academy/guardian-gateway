@@ -6,7 +6,7 @@ import { NearSocialLogo } from "../../icons/NearSocialLogo";
 import { NotificationWidget } from "../NotificationWidget";
 import { SignInButton } from "../SignInButton";
 import { StarButton } from "../StarButton";
-import logo from "../../../images/BOS-vara-logo.png";
+import logo from "../../../images/ETERNACODE_LOGO-NEW.png";
 
 const StyledNavigation = styled.div`
   position: sticky;
