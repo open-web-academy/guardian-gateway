@@ -166,7 +166,7 @@ export default function SailsInteraction() {
       </p>
       <CopyBlock
         language={"jsx"}
-        text={sample["interaction"]}
+        text={sample["SailsInteraction"]}
         showLineNumbers={true}
         theme={github}
         wrapLines={true}
