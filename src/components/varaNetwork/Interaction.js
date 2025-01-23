@@ -49,11 +49,8 @@ export const Interaction = ({ trigger, children }) => {
       value: value,
     };
     await web3Enable('Eternacode')
-    console.log("aqui")
     const transferExtrinsic = await varaApi.api.message.send(message, metadata);
-    console.log("aqui 2")
     const injector = await web3FromSource(varaAccount.account.meta.source);
-    console.log("aqui 3")
      transferExtrinsic
       .signAndSend(
         varaAccount.account?.address ?? console.log("no hay cuenta"),
