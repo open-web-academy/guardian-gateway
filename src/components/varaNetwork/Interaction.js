@@ -1,7 +1,7 @@
 import React from "react";
 import { useAccount, useApi } from "@gear-js/react-hooks";
 import { ProgramMetadata } from "@gear-js/api";
-import { web3FromSource } from "@polkadot/extension-dapp";
+import { web3FromSource, web3Enable } from "@polkadot/extension-dapp";
 import Swal from "sweetalert2";
 
 export const Interaction = ({ trigger, children }) => {
@@ -48,8 +48,12 @@ export const Interaction = ({ trigger, children }) => {
       gasLimit: gas,
       value: value,
     };
+    await web3Enable('Eternacode')
+    console.log("aqui")
     const transferExtrinsic = await varaApi.api.message.send(message, metadata);
+    console.log("aqui 2")
     const injector = await web3FromSource(varaAccount.account.meta.source);
+    console.log("aqui 3")
      transferExtrinsic
       .signAndSend(
         varaAccount.account?.address ?? console.log("no hay cuenta"),
