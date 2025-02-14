@@ -16,6 +16,8 @@ import { Button } from "react-bootstrap";
 import logo from "../../../images/ETERNACODE_LOGO-NEW.png";
 import { GearWalletButton } from "../../varaNetwork/gearWalletButton";
 import Swal from "sweetalert2";
+import { ConnectKitButton } from "connectkit";
+
 
 const StyledNavigation = styled.div`
   position: sticky;
@@ -95,6 +97,8 @@ export function DesktopNavigation(props) {
           <NavigationButton route="/edit">Editor</NavigationButton>
           <NavigationButton route="/docs">Docs</NavigationButton>
           <GearWalletButton></GearWalletButton>
+          <ConnectKitButton/>
+          
         </div>
         <div className="user-section">
           <DevActionsDropdown {...props} />
