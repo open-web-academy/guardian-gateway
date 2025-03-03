@@ -47,7 +47,7 @@ const Layout = {
   Split: "Split",
 };
 
-export default function EditorPage(props) {
+export default function EditorAIPage(props) {
   useHashRouterLegacy();
   const { widgetSrc } = useParams();
   const [localWidgetSrc, setLocalWidgetSrc] = useState(widgetSrc);
@@ -84,7 +84,7 @@ export default function EditorPage(props) {
 
   const [tab, setTab] = useState(Tab.Editor);
   const [layout, setLayoutState] = useState(
-    ls.get(EditorLayoutKey) || Layout.Split
+    Layout.Tabs
   );
   const [previewKey, setPreviewKey] = useState("");
 
@@ -725,43 +725,7 @@ export default function EditorPage(props) {
         )}
       </div>
       <div className="d-flex align-content-start">
-        <div className="me-2">
-          <div
-            className="btn-group-vertical"
-            role="group"
-            aria-label="Layout selection"
-          >
-            <input
-              type="radio"
-              className="btn-check"
-              name="layout-radio"
-              id="layout-tabs"
-              autoComplete="off"
-              checked={layout === Layout.Tabs}
-              onChange={onLayoutChange}
-              value={Layout.Tabs}
-              title={"Set layout to Tabs mode"}
-            />
-            <label className="btn btn-outline-secondary" htmlFor="layout-tabs">
-              <i className="bi bi-square" />
-            </label>
-
-            <input
-              type="radio"
-              className="btn-check"
-              name="layout-radio"
-              id="layout-split"
-              autoComplete="off"
-              checked={layout === Layout.Split}
-              value={Layout.Split}
-              title={"Set layout to Split mode"}
-              onChange={onLayoutChange}
-            />
-            <label className="btn btn-outline-secondary" htmlFor="layout-split">
-              <i className="bi bi-layout-split" />
-            </label>
-          </div>
-        </div>
+        
         <div className="flex-grow-1">
           <div className="row">
             <div className={layoutClass}>
@@ -775,44 +739,8 @@ export default function EditorPage(props) {
                     Editor
                   </button>
                 </li>
-                <li className="nav-item">
-                  <button
-                    className={`nav-link text-success ${tab === Tab.Props ? "active text-dark" : ""}`}
-                    aria-current="page"
-                    onClick={() => setTab(Tab.Props)}
-                  >
-                    Props
-                  </button>
-                </li>
-                {props.widgets.widgetMetadataEditor && (
-                  <li className="nav-item">
-                    <button
-                      className={`nav-link text-success ${
-                        tab === Tab.Metadata ? "active text-dark" : ""
-                      }`}
-                      aria-current="page"
-                      onClick={() => setTab(Tab.Metadata)}
-                    >
-                      Metadata
-                    </button>
-                  </li>
-                )}
-                {layout === Layout.Tabs && (
-                  <li className="nav-item">
-                    <button
-                      className={`nav-link ${
-                        tab === Tab.Widget ? "active" : ""
-                      }`}
-                      aria-current="page"
-                      onClick={() => {
-                        renderPreview(code);
-                        setTab(Tab.Widget);
-                      }}
-                    >
-                      Preview
-                    </button>
-                  </li>
-                )}
+                
+                
               </ul>
 
               <div className={`${tab === Tab.Editor ? "" : "visually-hidden"}`}>
@@ -838,18 +766,17 @@ export default function EditorPage(props) {
                     />
                   </div>
                   <Buttons className="mb-3 d-flex gap-2 flex-wrap">
+                    {!path?.unnamed && 
                     <button
                       className="btn btn-outline-success"
                       onClick={() => {
-                        renderPreview(code);
-                        if (layout === Layout.Tabs) {
-                          setTab(Tab.Widget);
-                        }
+                        setShowModalCode(true)
                       }}
                     >
-                      Preview
+                      Save Model on Scroll
                     </button>
-                    {!path?.unnamed && commitButton}
+                    
+                    }
                     
                     <button
                       className={`btn ${
@@ -861,17 +788,7 @@ export default function EditorPage(props) {
                     >
                       Rename
                     </button>
-                    {path && accountId && (
-                      <a
-                        key="open-comp"
-                        className="btn btn-outline-secondary"
-                        href={`/${widgetPath}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Open Component
-                      </a>
-                    )}
+        
 
                     <div className="dropdown">
                       <button

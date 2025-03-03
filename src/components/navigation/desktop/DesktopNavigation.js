@@ -95,6 +95,7 @@ export function DesktopNavigation(props) {
         <div className="navigation-section">
           <NavigationButton route="/">Home</NavigationButton>
           <NavigationButton route="/edit">Editor</NavigationButton>
+          <NavigationButton route="/editai">AI Editor</NavigationButton>
           <NavigationButton route="/docs">Docs</NavigationButton>
           <GearWalletButton></GearWalletButton>
           <ConnectKitButton/>

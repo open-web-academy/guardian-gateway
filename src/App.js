@@ -8,6 +8,7 @@ import "bootstrap/dist/js/bootstrap.bundle";
 import "App.scss";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import EditorPage from "./pages/EditorPage";
+import EditorAIPage from "./pages/EditorAIPage";
 import ViewPage from "./pages/ViewPage";
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
@@ -231,6 +232,11 @@ function App(props) {
                       <Route path={"/edit/:widgetSrc*"}>
                         <NavigationWrapper {...passProps} />
                         <EditorPage {...passProps} />
+                        <Footer/>
+                      </Route>
+                      <Route path={"/editai/:widgetSrc*"}>
+                        <NavigationWrapper {...passProps} />
+                        <EditorAIPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/docs/:docsRoute*"}>
