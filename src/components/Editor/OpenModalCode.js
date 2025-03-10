@@ -7,18 +7,19 @@ import { useWriteContract } from "wagmi";
 export default function OpenModalCode(props) {
   const onHide = props.onHide;
   const code = props.code;
+  const modelName = props.modelName
   const show = props.show;
   const { writeContract, isSuccess, isPaused} = useWriteContract()
   const trScroll = () => {
     console.log("hola")
-    const result = writeContract({
-      abi: [
+    writeContract({
+      abi: [[
         {
           "inputs": [
             {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
             },
             {
               "internalType": "string",
@@ -26,21 +27,71 @@ export default function OpenModalCode(props) {
               "type": "string"
             }
           ],
-          "name": "addVersion",
+          "name": "createEntry",
           "outputs": [],
           "stateMutability": "nonpayable",
           "type": "function"
         },
         {
+          "anonymous": false,
           "inputs": [
             {
+              "indexed": true,
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
               "internalType": "uint256",
-              "name": "id",
+              "name": "timestamp",
               "type": "uint256"
+            }
+          ],
+          "name": "EntryCreated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "name": "EntryUpdated",
+          "type": "event"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
             },
             {
               "internalType": "address",
-              "name": "wallet",
+              "name": "viewer",
               "type": "address"
             }
           ],
@@ -50,23 +101,24 @@ export default function OpenModalCode(props) {
           "type": "function"
         },
         {
-          "inputs": [],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
-        {
           "anonymous": false,
           "inputs": [
             {
               "indexed": true,
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
             },
             {
-              "indexed": true,
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
               "internalType": "address",
-              "name": "wallet",
+              "name": "viewer",
               "type": "address"
             }
           ],
@@ -78,14 +130,20 @@ export default function OpenModalCode(props) {
           "inputs": [
             {
               "indexed": true,
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
             },
             {
-              "indexed": true,
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
               "internalType": "address",
-              "name": "wallet",
+              "name": "viewer",
               "type": "address"
             }
           ],
@@ -95,13 +153,13 @@ export default function OpenModalCode(props) {
         {
           "inputs": [
             {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
             },
             {
               "internalType": "address",
-              "name": "wallet",
+              "name": "viewer",
               "type": "address"
             }
           ],
@@ -111,85 +169,90 @@ export default function OpenModalCode(props) {
           "type": "function"
         },
         {
-          "anonymous": false,
           "inputs": [
             {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
             },
             {
-              "indexed": true,
-              "internalType": "address",
-              "name": "author",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "timestamp",
-              "type": "uint256"
+              "internalType": "string",
+              "name": "newText",
+              "type": "string"
             }
           ],
-          "name": "VersionAdded",
-          "type": "event"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address",
-              "name": "wallet",
-              "type": "address"
-            }
-          ],
-          "name": "checkPermission",
-          "outputs": [
-            {
-              "internalType": "bool",
-              "name": "",
-              "type": "bool"
-            }
-          ],
-          "stateMutability": "view",
+          "name": "updateEntry",
+          "outputs": [],
+          "stateMutability": "nonpayable",
           "type": "function"
         },
         {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
-            }
-          ],
-          "name": "getLatestVersion",
+          "inputs": [],
+          "name": "getAccessibleEntries",
           "outputs": [
             {
               "components": [
                 {
+                  "internalType": "address",
+                  "name": "owner",
+                  "type": "address"
+                },
+                {
                   "internalType": "string",
-                  "name": "content",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "string",
+                  "name": "currentText",
                   "type": "string"
                 },
                 {
                   "internalType": "uint256",
-                  "name": "timestamp",
+                  "name": "createdAt",
                   "type": "uint256"
                 },
                 {
-                  "internalType": "address",
-                  "name": "author",
-                  "type": "address"
+                  "internalType": "uint256",
+                  "name": "updatedAt",
+                  "type": "uint256"
                 }
               ],
-              "internalType": "struct EternacodeAI.AIModelVersion",
+              "internalType": "struct TextStorage.AccessibleEntry[]",
               "name": "",
-              "type": "tuple"
+              "type": "tuple[]"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "owner",
+                  "type": "address"
+                },
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "string",
+                  "name": "currentText",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "createdAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "updatedAt",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct TextStorage.AccessibleEntry[]",
+              "name": "",
+              "type": "tuple[]"
             }
           ],
           "stateMutability": "view",
@@ -201,55 +264,29 @@ export default function OpenModalCode(props) {
               "internalType": "address",
               "name": "user",
               "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
             }
           ],
-          "name": "getUserLatestIds",
+          "name": "getCurrentText",
           "outputs": [
             {
-              "internalType": "uint256[]",
-              "name": "",
-              "type": "uint256[]"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
+              "internalType": "string",
+              "name": "text",
+              "type": "string"
+            },
             {
               "internalType": "uint256",
-              "name": "id",
+              "name": "createdAt",
               "type": "uint256"
             },
             {
               "internalType": "uint256",
-              "name": "index",
+              "name": "updatedAt",
               "type": "uint256"
-            }
-          ],
-          "name": "getVersion",
-          "outputs": [
-            {
-              "components": [
-                {
-                  "internalType": "string",
-                  "name": "content",
-                  "type": "string"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "timestamp",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "address",
-                  "name": "author",
-                  "type": "address"
-                }
-              ],
-              "internalType": "struct EternacodeAI.AIModelVersion",
-              "name": "",
-              "type": "tuple"
             }
           ],
           "stateMutability": "view",
@@ -258,9 +295,14 @@ export default function OpenModalCode(props) {
         {
           "inputs": [
             {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
             },
             {
               "internalType": "uint256",
@@ -268,27 +310,22 @@ export default function OpenModalCode(props) {
               "type": "uint256"
             }
           ],
-          "name": "getVersionsPaginated",
+          "name": "getRecentVersions",
           "outputs": [
             {
               "components": [
                 {
                   "internalType": "string",
-                  "name": "content",
+                  "name": "text",
                   "type": "string"
                 },
                 {
                   "internalType": "uint256",
-                  "name": "timestamp",
+                  "name": "modifiedAt",
                   "type": "uint256"
-                },
-                {
-                  "internalType": "address",
-                  "name": "author",
-                  "type": "address"
                 }
               ],
-              "internalType": "struct EternacodeAI.AIModelVersion[]",
+              "internalType": "struct TextStorage.Version[]",
               "name": "",
               "type": "tuple[]"
             }
@@ -299,44 +336,73 @@ export default function OpenModalCode(props) {
         {
           "inputs": [
             {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
               "internalType": "uint256",
-              "name": "",
+              "name": "index",
               "type": "uint256"
             }
           ],
-          "name": "idToLatestAuthor",
+          "name": "getSpecificVersion",
           "outputs": [
             {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
+              "internalType": "string",
+              "name": "text",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "modifiedAt",
+              "type": "uint256"
             }
           ],
           "stateMutability": "view",
           "type": "function"
         },
         {
-          "inputs": [],
-          "name": "owner",
-          "outputs": [
+          "inputs": [
             {
               "internalType": "address",
-              "name": "",
+              "name": "user",
               "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "name": "getVersionCount",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
             }
           ],
           "stateMutability": "view",
           "type": "function"
         }
-      ],
-      address: '0x12798B1BCBE59E924e64DB7f8A23EF6b2ADB9954',
-      functionName: 'addVersion',
+      ]],
+      address: '0xa8aF597A8bcAe610cdD4621B400131173acFddcF',
+      functionName: 'createEntry',
       args: [
-        "3",
+        modelName,
         code
       ],
     })
+    console.log(isSuccess, isPaused)
+    console.log("hola2")
   }
+
 
   const [widgetSrc, setWidgetSrc] = useState("");
   let codeFormated = code ? code.replace(/\n$/, "") : ""

@@ -551,7 +551,7 @@ export default function EditorAIPage(props) {
   );
 
   const widgetName = path?.name;
-
+  
   const commitButton = (
     <CommitButton
       className="btn btn-outline-success"
@@ -638,7 +638,8 @@ export default function EditorAIPage(props) {
       />
       <OpenModalCode
         show={showModalCode}
-        code ={code}
+        code={code}
+        modelName={widgetName}
         onHide={() => setShowModalCode(false)}
       />
       

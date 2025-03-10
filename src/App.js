@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import EditorPage from "./pages/EditorPage";
 import EditorAIPage from "./pages/EditorAIPage";
 import ViewPage from "./pages/ViewPage";
+import ViewModelAIPage from './pages/ViewModelAIPage'
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
@@ -242,6 +243,11 @@ function App(props) {
                       <Route path={"/docs/:docsRoute*"}>
                         <NavigationWrapper {...passProps} />
                         <Main {...passProps} />
+                        <Footer/>
+                      </Route>
+                      <Route path={"/aimodel/:widgetSrc*"}>
+                        <NavigationWrapper {...passProps} />
+                        <ViewModelAIPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/:widgetSrc*"}>
