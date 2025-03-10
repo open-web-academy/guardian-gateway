@@ -15,7 +15,7 @@ export const config = createConfig(
       // ),
       // [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
       [scroll.id]: http('https://scroll.drpc.org'),
-      [scrollSepolia.id]: http('https://scroll-testnet-public.unifra.io')
+      [scrollSepolia.id]: http('https://sepolia-rpc.scroll.io')
     },
 
     // Required API Keys
