@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useReadContract, useAccount } from 'wagmi';
 import { useParams } from "react-router-dom";
 import { abi } from '../config/abi';
@@ -13,6 +13,8 @@ export default function TestModelPage() {
   const [runError, setRunError] = useState(null);
   const account = useAccount();
   const [consoleLogs, setConsoleLogs] = useState([]);
+  const [output, setOutput] = useState([]);
+  const codeExecutionRef = useRef({});
 
   // Simplified src calculation
   const srcValues = useMemo(() => {
@@ -52,44 +54,57 @@ export default function TestModelPage() {
 
   // Run model function
   const runModel = async () => {
-    setConsoleLogs([]); // Clear previous logs
-    setIsRunning(true);
-    setRunError(null);
-    const startTime = performance.now();
-    
     try {
-      const modelCode = data?.[1] || '';
-      
-      // Override console.log to capture training output
-      const originalLog = console.log;
-      console.log = (...args) => {
-        originalLog.apply(console, args);
-        const logMessage = args.join(' ');
-        setConsoleLogs(prev => [...prev, {
-          message: logMessage,
-          timestamp: new Date().toLocaleTimeString()
-        }]);
+      setOutput([]);
+      setIsRunning(true);
+
+      // Log TensorFlow.js information safely
+      const tfVersion = tf?.version?.tfjs || 'unknown';
+      const backend = tf?.getBackend() || 'unknown';
+      const backends = tf?.engine()?.registeredBackends || [];
+
+      setOutput(prev => [
+        ...prev,
+        `✅ Using TensorFlow.js version: ${tfVersion}`,
+        `📊 Backend: ${backend}`,
+        `🧮 Available backends: ${backends.join(', ') || 'none'}`
+      ]);
+
+      // Configure console logging
+      const originalConsole = {
+        log: console.log,
+        error: console.error,
+        warn: console.warn
       };
-      
-      const safeEval = new Function('tf', modelCode);
-      
-      const result = await safeEval(tf);
-      
-      // Restore original console.log
-      console.log = originalLog;
-      
-      // Process tensor information if result is a tensor
-      let tensorData = null;
-      if (result instanceof tf.Tensor) {
-        tensorData = {
-          shape: result.shape,
-          dtype: result.dtype,
-          data: Array.from(await result.data())
-        };
-      }
+
+      console.log('originalConsole',originalConsole)
+
+      console.log = (...args) => {
+        setOutput(prev => [...prev, args.join(' ')]);
+        originalConsole.log(...args);
+
+      };
+
+      console.error = (...args) => {
+        setOutput(prev => [...prev, `❌ ${args.join(' ')}`]);
+        originalConsole.error(...args);
+      };
+
+      codeExecutionRef.current.cleanup = () => {
+        Object.assign(console, originalConsole);
+        // Clean up any tensors
+        tf.disposeVariables();
+      };
+
+      // Execute the code with tf in scope
+      const executeCode = new Function('tf', data[1]);
+      await executeCode(tf);
+
     } catch (error) {
-      setRunError(error.message);
-      console.error('Error running model:', error);
+      setOutput(prev => [
+        ...prev,
+        `❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`
+      ]);
     } finally {
       setIsRunning(false);
     }
@@ -120,7 +135,7 @@ export default function TestModelPage() {
           </div>
 
           {/* Console Output Section */}
-            {consoleLogs.length > 0 && (
+            {output.length > 0 && (
                 <div className="card mb-4">
                 <div className="card-header">
                     <h4>Console Output</h4>
@@ -133,10 +148,9 @@ export default function TestModelPage() {
                     fontFamily: 'monospace'
                     }}
                 >
-                    {consoleLogs.map((log, index) => (
+                    {output.map((log, index) => (
                     <div key={index} className="mb-1">
-                        <small className="text-muted">{log.timestamp}</small>
-                        <pre className="m-0 text-light">{log.message}</pre>
+                        {`> ${log}`}
                     </div>
                     ))}
                 </div>
