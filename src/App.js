@@ -46,6 +46,9 @@ import {config} from './config/Web3ProviderConfig'
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import ContractReader from "./components/ContractReader";
+import TestModelPage from "./pages/TestModelPage";
+import SearchModelsPage from "./pages/SearchModelsPage";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://social.near-docs.io/";
@@ -245,9 +248,14 @@ function App(props) {
                         <Main {...passProps} />
                         <Footer/>
                       </Route>
+                      <Route path={"/searchmodel"}>
+                        <NavigationWrapper {...passProps} />
+                        <SearchModelsPage {...passProps} />
+                        <Footer/>
+                      </Route>
                       <Route path={"/aimodel/:widgetSrc*"}>
                         <NavigationWrapper {...passProps} />
-                        <ViewModelAIPage {...passProps} />
+                        <TestModelPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/:widgetSrc*"}>

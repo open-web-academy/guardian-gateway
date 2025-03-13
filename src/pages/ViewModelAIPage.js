@@ -5,27 +5,63 @@ import { useQuery } from "../hooks/useQuery";
 import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy";
 import { Prism } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { abi } from "../config/abi";
+import { useReadContract, useAccount } from 'wagmi'
+import { set } from "local-storage";
+import { create } from "zustand";
+
+function isValidAddress(address) {
+  return /^0x[a-fA-F0-9]{40}$/.test(address);
+}
+
+function isValidString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
 
 export default function ViewModelAIPage(props) {
+  // 1. Todos los hooks primero
   useHashRouterLegacy();
-
   const { widgetSrc } = useParams();
   const query = useQuery();
   const [widgetProps, setWidgetProps] = useState({});
-  const [code, setCode] = useState()
+  const [code, setCode] = useState("");
+  const account = useAccount();
+  const [modelData, setModelData] = useState(null);
 
-  const src =
-    window?.InjectedConfig?.forcedWidget ||
-    widgetSrc ||
-    window?.InjectedConfig?.defaultWidget ||
-    props.widgets.default;
-
+  // 2. Constantes derivadas de props y window
+  const src = window?.InjectedConfig?.forcedWidget || 
+              widgetSrc || 
+              window?.InjectedConfig?.defaultWidget || 
+              props.widgets.default;
+              
   const showMenu = !window?.InjectedConfig?.hideMenu;
   const setWidgetSrc = props.setWidgetSrc;
   const viewSourceWidget = props.widgets.viewSource;
-
   const injectedProps = window?.InjectedConfig?.props;
+  const srcValues = src.split('/');
 
+  // 3. Validaciones
+  const isAddressValid = isValidAddress(account.address);
+  const isModelValid = isValidString(srcValues[1]);
+
+  // 4. Hook de contrato después de validaciones
+  const { data, isFetched, isFetching, error } = useReadContract({
+    abi,
+    address: '0xB59f727832e52EADA1bE6f1a62e1d1806a2d1dfa',
+    functionName: 'getCurrentText',
+    account: account.address,
+    args: [srcValues[0], srcValues[1]],
+  });
+
+  // Efecto para manejar la actualización de modelData
+  useEffect(() => {
+    if (isFetched && data) {
+      console.log(data)
+      setModelData({name: data[0], code: data[1].replace(/\n$/, ""), created: data[2], updated: data[3]});
+    }
+  }, [isFetched, data]);
+
+  // Efecto para widgetProps
   useEffect(() => {
     setWidgetProps(
       Object.assign(
@@ -35,6 +71,7 @@ export default function ViewModelAIPage(props) {
     );
   }, [query, injectedProps]);
 
+  // 5. Efectos
   useEffect(() => {
     setTimeout(() => {
       setWidgetSrc(
@@ -135,31 +172,28 @@ setCode(codeFormated)
   }, [src, query, setWidgetSrc, viewSourceWidget]);
 
   return (
+    isFetched ?(
+    modelData &&(
     <div className="p-5">
-      <h1 className="fw-bold pb-2">JS Neuron</h1>
+      <h1 className="fw-bold pb-2">{modelData.name}</h1>
       <div className="d-flex flex-row justify-content-between">
         <div className="pb-4">
           <h5 className="fw-bold">Owner:</h5>
-          <p>0x693C41ab52acd72B8fD2Fb5b8334D614e5de5dD5</p>
-        </div>
-        <div className="pb-4">
-          <h5 className="fw-bold">Accounts with access:</h5>
-          <p>0x35723ac32f54d1f581C6aEb590e794858f36F48C</p>
+          <p>{srcValues[0]}</p>
         </div>
       </div>
       <div className="pb-4">
-        <p><b>Created at:</b> 09/03/2025 12:00pm</p>
-        <p><b>Last update:</b> 09/03/2025 12:00pm</p>
+        <p><b>Created at:</b>{parseInt(modelData.created)}</p>
+        <p><b>Last update:</b>{parseInt(modelData.updated)}</p>
       </div>
       <div className="d-flex flex-row gap-2 pb-4">
-        <button className="btn btn-outline-success">Grant access</button>
         <button className="btn btn-success">Edit</button>
       </div>
       <div>
         <h5 className="fw-bold">AI Model Code</h5>
       </div>
       <Prism
-        children={code}
+        children={modelData.code}
         style={tomorrow}
         language="javascript"
         PreTag="div"
@@ -168,6 +202,10 @@ setCode(codeFormated)
           "fontSize": "10",
         }}
       />
-    </div>
-  )
+      </div>
+    )
+    ) : (
+      <h1>Loading...</h1>
+    )
+  );
 }

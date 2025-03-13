@@ -789,6 +789,16 @@ export default function EditorAIPage(props) {
                     >
                       Rename
                     </button>
+
+                    <a
+                        key="open-comp"
+                        className="btn btn-outline-secondary"
+                        href={`/searchmodel`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Search Models
+                      </a>
         
 
                     <div className="dropdown">

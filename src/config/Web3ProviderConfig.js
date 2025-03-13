@@ -14,7 +14,7 @@ export const config = createConfig(
       //   `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
       // ),
       // [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
-      [scroll.id]: http('https://scroll.drpc.org'),
+      //[scroll.id]: http('https://scroll.drpc.org'),
       [scrollSepolia.id]: http('https://sepolia-rpc.scroll.io')
     },
 
