@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import ls from "local-storage";
 import prettier, { check } from "prettier";
 import parserBabel from "prettier/parser-babel";
-import { useHistory, useParams } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 import Editor, { useMonaco } from "@monaco-editor/react";
 import {
   Widget,
@@ -27,6 +27,8 @@ import styled from "styled-components";
 import { useAccount, useWriteContract } from "wagmi";
 import { SaveCodeModal } from "../components/Editor/SaveCodeModal";
 import OpenModalCode from "../components/Editor/OpenModalCode";
+import * as tf from '@tensorflow/tfjs';
+import '@tensorflow/tfjs-backend-webgl';
 
 const LsKey = "social.near:v01:";
 const EditorLayoutKey = LsKey + "editorLayout:";
@@ -50,15 +52,20 @@ const Layout = {
 export default function EditorAIPage(props) {
   useHashRouterLegacy();
   const { widgetSrc } = useParams();
+  const [output, setOutput] = useState([]);
   const [localWidgetSrc, setLocalWidgetSrc] = useState(widgetSrc);
   const history = useHistory();
   const setWidgetSrc = props.setWidgetSrc;
   const account = useAccount()
-  
+  const location = useLocation();
+  const { data, name } = location.state || {};
+
+  console.log(location.state);
+  const [isRunning, setIsRunning] = useState(false);
 
   const [showModalCode, setShowModalCode] = useState(false)
   const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState(undefined);
+  const [code, setCode] = useState(DefaultEditorCode);
   const [path, setPath] = useState(undefined);
   const [files, setFiles] = useState(undefined);
   const [lastPath, setLastPath] = useState(undefined);
@@ -81,10 +88,12 @@ export default function EditorAIPage(props) {
   const near = useNear();
   const cache = useCache();
   const accountId = useAccountId();
+  const codeExecutionRef = useRef({});
+  const [runError, setRunError] = useState(null);
 
   const [tab, setTab] = useState(Tab.Editor);
   const [layout, setLayoutState] = useState(
-    Layout.Tabs
+    Layout.Split
   );
   const [previewKey, setPreviewKey] = useState("");
 
@@ -93,14 +102,14 @@ export default function EditorAIPage(props) {
     const varaAccount: Object = varaAccount2;
   }
   `
-  
 
-  const handleModalCode = () =>{
+
+  const handleModalCode = () => {
     setShowModalCode(!showModalCode)
   }
 
   const monaco = useMonaco();
-  
+
 
   useEffect(() => {
     if (monaco) {
@@ -110,6 +119,12 @@ export default function EditorAIPage(props) {
       );
     }
   }, [monaco]);
+
+  useEffect(() => {
+    if (data) {
+      setCode(data);
+    }
+  }, [data, name]);
 
   const setLayout = useCallback(
     (layout) => {
@@ -242,7 +257,12 @@ export default function EditorAIPage(props) {
           time: Date.now(),
         }
       );
-      setCode(code);
+      console.log(data);
+      if (!data) {
+        setCode(code);
+      }
+      history.replace({ ...location, state: {} });
+      console.log(location.state);
     },
     [cache, setCode]
   );
@@ -436,7 +456,7 @@ export default function EditorAIPage(props) {
   useEffect(() => {
     cache
       .asyncLocalStorageGet(StorageDomain, { type: StorageType.forkDetails })
-      .then((value) => {})
+      .then((value) => { })
       .catch((e) => {
         console.error(e);
       });
@@ -531,27 +551,27 @@ export default function EditorAIPage(props) {
     (uncommittedPreviews) => {
       return uncommittedPreviews
         ? {
-            redirectMap: Object.fromEntries(
-              Object.entries(allSaved)
-                .filter(([jpath, code]) => code !== true)
-                .map(([jpath, code]) => {
-                  const path = JSON.parse(jpath);
-                  return [
-                    pathToSrc(path),
-                    {
-                      code,
-                    },
-                  ];
-                })
-            ),
-          }
+          redirectMap: Object.fromEntries(
+            Object.entries(allSaved)
+              .filter(([jpath, code]) => code !== true)
+              .map(([jpath, code]) => {
+                const path = JSON.parse(jpath);
+                return [
+                  pathToSrc(path),
+                  {
+                    code,
+                  },
+                ];
+              })
+          ),
+        }
         : undefined;
     },
     [allSaved, pathToSrc]
   );
 
   const widgetName = path?.name;
-  
+
   const commitButton = (
     <CommitButton
       className="btn btn-outline-success"
@@ -590,10 +610,72 @@ export default function EditorAIPage(props) {
     }
   `;
 
+  const runModel = async () => {
+    try {
+      setOutput([]);
+      setIsRunning(true);
+
+      // Log TensorFlow.js information safely
+      const tfVersion = tf?.version?.tfjs || 'unknown';
+      const backend = tf?.getBackend() || 'unknown';
+      const backends = tf?.engine()?.registeredBackends || [];
+      console.log("---------------1");
+      setOutput(prev => [
+        ...prev,
+        `✅ Using TensorFlow.js version: ${tfVersion}`,
+        `📊 Backend: ${backend}`,
+        `🧮 Available backends: ${backends.join(', ') || 'none'}`
+      ]);
+
+      console.log("---------------2");
+      // Configure console logging
+      const originalConsole = {
+        log: console.log,
+        error: console.error,
+        warn: console.warn
+      };
+
+      console.log("---------------3");
+      console.log('originalConsole', originalConsole)
+
+      console.log = (...args) => {
+        setOutput(prev => [...prev, args.join(' ')]);
+        originalConsole.log(...args);
+
+      };
+      console.log("---------------4");
+      console.error = (...args) => {
+        setOutput(prev => [...prev, `❌ ${args.join(' ')}`]);
+        originalConsole.error(...args);
+      };
+      console.log("---------------5");
+      codeExecutionRef.current.cleanup = () => {
+        Object.assign(console, originalConsole);
+        // Clean up any tensors
+        tf.disposeVariables();
+      };
+
+      console.log("---------------6");
+      // Execute the code with tf in scope
+      console.log("code", code);
+      const executeCode = new Function('tf', code);
+      await executeCode(tf);
+      console.log("---------------7");
+    } catch (error) {
+      setOutput(prev => [
+        ...prev,
+        `❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`
+      ]);
+    } finally {
+      setIsRunning(false);
+      console.log("---------------8");
+    }
+  };
+
   return (
     <>
-    <style type="text/css">
-    {`
+      <style type="text/css">
+        {`
     .nav-tabs .nav-link {
       background-color: white !important;
       color: black !important;
@@ -617,310 +699,330 @@ export default function EditorAIPage(props) {
       font-weight: 600;
     }
     `}
-    </style>
-    <div className="container-fluid mt-1 mb-3">
-      <RenameModal
-        key={`rename-modal-${jpath}`}
-        show={showRenameModal}
-        name={path?.name}
-        onRename={(newName) => renameFile(newName, code)}
-        onHide={() => setShowRenameModal(false)}
-      />
-      <OpenModal
-        show={showOpenModal}
-        onOpen={(newName) => loadFile(newName)}
-        onNew={(newName) =>
-          newName
-            ? openFile(toPath(Filetype.Widget, newName), DefaultEditorCode)
-            : createFile(Filetype.Widget)
-        }
-        onHide={() => setShowOpenModal(false)}
-      />
-      <OpenModalCode
-        show={showModalCode}
-        code={code}
-        modelName={widgetName}
-        onHide={() => setShowModalCode(false)}
-      />
-      
-      <div className="mb-3">
-        <Nav
-          variant="pills mb-1"
-          activeKey={jpath}
-          onSelect={(key) => openFile(JSON.parse(key))}
-        >
-          {files?.map((p, idx) => {
-            const jp = JSON.stringify(p);
-            const active = jp === jpath;
-            return (
-              <FileTab
-                key={jp}
-                {...{
-                  p,
-                  jp,
-                  idx,
-                  active,
-                  openFile,
-                  createFile,
-                  removeFromFiles,
-                  files,
-                  code: jp === jpath ? code : undefined,
-                  updateSaved,
-                  setForkDetails,
-                  setMetadata,
-                  setWidgetSrc,
-                  setLocalWidgetSrc,
-                }}
+      </style>
+      <div className="container-fluid mt-1 mb-3">
+        <RenameModal
+          key={`rename-modal-${jpath}`}
+          show={showRenameModal}
+          name={path?.name}
+          onRename={(newName) => renameFile(newName, code)}
+          onHide={() => setShowRenameModal(false)}
+        />
+        <OpenModal
+          show={showOpenModal}
+          onOpen={(newName) => loadFile(newName)}
+          onNew={(newName) =>
+            newName
+              ? openFile(toPath(Filetype.Widget, newName), DefaultEditorCode)
+              : createFile(Filetype.Widget)
+          }
+          onHide={() => setShowOpenModal(false)}
+        />
+        <OpenModalCode
+          show={showModalCode}
+          code={code}
+          modelName={widgetName}
+          onHide={() => setShowModalCode(false)}
+        />
+
+        <div className="mb-3">
+          <Nav
+            variant="pills mb-1"
+            activeKey={jpath}
+            onSelect={(key) => openFile(JSON.parse(key))}
+          >
+            {files?.map((p, idx) => {
+              const jp = JSON.stringify(p);
+              const active = jp === jpath;
+              return (
+                <FileTab
+                  key={jp}
+                  {...{
+                    p,
+                    jp,
+                    idx,
+                    active,
+                    openFile,
+                    createFile,
+                    removeFromFiles,
+                    files,
+                    code: jp === jpath ? code : undefined,
+                    updateSaved,
+                    setForkDetails,
+                    setMetadata,
+                    setWidgetSrc,
+                    setLocalWidgetSrc,
+                  }}
+                />
+              );
+            })}
+            <Nav.Item>
+              <Nav.Link
+                className="text-decoration-none text-test"
+                onClick={() => setShowOpenModal(true)}
+              >
+                <i className="bi bi-file-earmark-plus"></i> Add
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                className="text-decoration-none text-test"
+                onClick={() => closeCommitted(path, allSaved)}
+              >
+                <i className="bi bi-x-lg"></i> Close unchanged
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+          {props.widgets.editorComponentSearch && (
+            <div>
+              <Widget
+                src={props.widgets.editorComponentSearch}
+                props={useMemo(
+                  () => ({
+                    extraButtons: ({ widgetName, widgetPath, onHide }) => (
+                      <OverlayTrigger
+                        placement="auto"
+                        overlay={
+                          <Tooltip>
+                            Open "${widgetName}" component in the editor
+                          </Tooltip>
+                        }
+                      >
+                        <button
+                          className="btn btn-outline-success"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            loadFile(widgetPath);
+                            onHide && onHide();
+                          }}
+                        >
+                          Open
+                        </button>
+                      </OverlayTrigger>
+                    ),
+                  }),
+                  [loadFile]
+                )}
               />
-            );
-          })}
-          <Nav.Item>
-            <Nav.Link
-              className="text-decoration-none text-test"
-              onClick={() => setShowOpenModal(true)}
-            >
-              <i className="bi bi-file-earmark-plus"></i> Add
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              className="text-decoration-none text-test"
-              onClick={() => closeCommitted(path, allSaved)}
-            >
-              <i className="bi bi-x-lg"></i> Close unchanged
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-        {props.widgets.editorComponentSearch && (
-          <div>
-            <Widget
-              src={props.widgets.editorComponentSearch}
-              props={useMemo(
-                () => ({
-                  extraButtons: ({ widgetName, widgetPath, onHide }) => (
-                    <OverlayTrigger
-                      placement="auto"
-                      overlay={
-                        <Tooltip>
-                          Open "${widgetName}" component in the editor
-                        </Tooltip>
-                      }
+            </div>
+          )}
+        </div>
+        <div className="d-flex align-content-start">
+
+          <div className="flex-grow-1">
+            <div className="row">
+              <div className={layoutClass}>
+                <ul className={`nav nav-tabs mb-2`}>
+                  <li className="nav-item">
+                    <button
+                      className={`nav-link text-success ${tab === Tab.Editor ? "active text-dark" : ""}`}
+                      aria-current="page"
+                      onClick={() => setTab(Tab.Editor)}
                     >
+                      Editor
+                    </button>
+                  </li>
+
+
+                </ul>
+
+                <div className={`${tab === Tab.Editor ? "" : "visually-hidden"}`}>
+                  <div
+                    className="d-flex flex-column overflow-hidden"
+                    style={{ height: "80vh" }}
+                  >
+                    <div
+                      className="mb-2 flex-grow-1 border"
+                      style={{ minHeight: 1 }}
+                    >
+                      <Editor
+                        value={code}
+                        path={widgetPath}
+                        defaultLanguage="javascript"
+                        onChange={(code) => {
+                          updateCode(path, code);
+                          checkForkDetails(path);
+                        }}
+                        wrapperProps={{
+                          onBlur: () => reformat(path, code),
+                        }}
+                      />
+                    </div>
+                    <Buttons className="mb-3 d-flex gap-2 flex-wrap">
+                      {!path?.unnamed &&
+                        <button
+                          className="btn btn-outline-success"
+                          onClick={() => {
+                            setShowModalCode(true)
+                          }}
+                        >
+                          Save Model on Scroll
+                        </button>
+
+                      }
+
                       <button
-                        className="btn btn-outline-success"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          loadFile(widgetPath);
-                          onHide && onHide();
+                        className={`btn ${path?.unnamed ? "btn-success" : "btn-outline-secondary"
+                          }`}
+                        onClick={() => {
+                          setShowRenameModal(true);
                         }}
                       >
-                        Open
+                        Rename
                       </button>
-                    </OverlayTrigger>
-                  ),
-                }),
-                [loadFile]
-              )}
-            />
-          </div>
-        )}
-      </div>
-      <div className="d-flex align-content-start">
-        
-        <div className="flex-grow-1">
-          <div className="row">
-            <div className={layoutClass}>
-              <ul className={`nav nav-tabs mb-2`}>
-                <li className="nav-item">
-                  <button
-                    className={`nav-link text-success ${tab === Tab.Editor ? "active text-dark" : ""}`}
-                    aria-current="page"
-                    onClick={() => setTab(Tab.Editor)}
-                  >
-                    Editor
-                  </button>
-                </li>
-                
-                
-              </ul>
 
-              <div className={`${tab === Tab.Editor ? "" : "visually-hidden"}`}>
-                <div
-                  className="d-flex flex-column overflow-hidden"
-                  style={{ height: "80vh" }}
-                >
-                  <div
-                    className="mb-2 flex-grow-1 border"
-                    style={{ minHeight: 1 }}
-                  >
-                    <Editor
-                      value={code}
-                      path={widgetPath}
-                      defaultLanguage="javascript"
-                      onChange={(code) => {
-                        updateCode(path, code);
-                        checkForkDetails(path);
-                      }}
-                      wrapperProps={{
-                        onBlur: () => reformat(path, code),
-                      }}
-                    />
-                  </div>
-                  <Buttons className="mb-3 d-flex gap-2 flex-wrap">
-                    {!path?.unnamed && 
-                    <button
-                      className="btn btn-outline-success"
-                      onClick={() => {
-                        setShowModalCode(true)
-                      }}
-                    >
-                      Save Model on Scroll
-                    </button>
-                    
-                    }
-                    
-                    <button
-                      className={`btn ${
-                        path?.unnamed ? "btn-success" : "btn-outline-secondary"
-                      }`}
-                      onClick={() => {
-                        setShowRenameModal(true);
-                      }}
-                    >
-                      Rename
-                    </button>
-
-                    <a
+                      <a
                         key="open-comp"
                         className="btn btn-outline-secondary"
                         href={`/searchmodel`}
-                        target="_blank"
                         rel="noopener noreferrer"
                       >
                         Search Models
                       </a>
-        
 
-                    <div className="dropdown">
                       <button
-                        className="btn btn-outline-secondary flex-shrink-1"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
+                        className="btn btn-success"
+                        onClick={runModel}
+                        disabled={isRunning}
                       >
-                        <i className="bi bi-sliders" />
+                        {isRunning ? 'Running...' : 'Run Model'}
                       </button>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <button
-                            onClick={() => {
-                              const v = !uncommittedPreviews;
-                              ls.set(EditorUncommittedPreviewsKey, v);
-                              setUncommittedPreviews(v);
-                              setWidgetConfig(generateWidgetConfig(v));
-                            }}
-                            className={`dropdown-item text-nowrap`}
-                            data-toggle="button"
-                            aria-pressed={uncommittedPreviews}
-                            title="When enabled, the preview uses uncommitted code from all opened files"
-                          >
-                            <i className="bi bi-asterisk" /> Multi-file preview
-                            ({uncommittedPreviews ? "ON" : "OFF"})
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                  </Buttons>
+
+
+                      <div className="dropdown">
+                        <button
+                          className="btn btn-outline-secondary flex-shrink-1"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="bi bi-sliders" />
+                        </button>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <button
+                              onClick={() => {
+                                const v = !uncommittedPreviews;
+                                ls.set(EditorUncommittedPreviewsKey, v);
+                                setUncommittedPreviews(v);
+                                setWidgetConfig(generateWidgetConfig(v));
+                              }}
+                              className={`dropdown-item text-nowrap`}
+                              data-toggle="button"
+                              aria-pressed={uncommittedPreviews}
+                              title="When enabled, the preview uses uncommitted code from all opened files"
+                            >
+                              <i className="bi bi-asterisk" /> Multi-file preview
+                              ({uncommittedPreviews ? "ON" : "OFF"})
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </Buttons>
+                  </div>
                 </div>
-              </div>
-              <div className={`${tab === Tab.Props ? "" : "visually-hidden"}`}>
-                <div
-                  className="d-flex flex-column overflow-hidden"
-                  style={{ height: "80vh" }}
-                >
+                <div className={`${tab === Tab.Props ? "" : "visually-hidden"}`}>
                   <div
-                    className="mb-2 flex-grow-1 border"
-                    style={{ minHeight: 1 }}
+                    className="d-flex flex-column overflow-hidden"
+                    style={{ height: "80vh" }}
                   >
-                    <Editor
-                      value={widgetProps}
-                      defaultLanguage="json"
-                      onChange={(props) => setWidgetProps(props)}
-                      wrapperProps={{
-                        onBlur: () => reformatProps(widgetProps),
-                      }}
+                    <div
+                      className="mb-2 flex-grow-1 border"
+                      style={{ minHeight: 1 }}
+                    >
+                      <Editor
+                        value={widgetProps}
+                        defaultLanguage="json"
+                        onChange={(props) => setWidgetProps(props)}
+                        wrapperProps={{
+                          onBlur: () => reformatProps(widgetProps),
+                        }}
+                      />
+                    </div>
+                    <div className=" mb-3">^^ Props for debugging (in JSON)</div>
+                    {propsError && (
+                      <pre className="alert alert-danger">{propsError}</pre>
+                    )}{" "}
+                  </div>
+                </div>
+                <div
+                  className={`${tab === Tab.Metadata && props.widgets.widgetMetadataEditor
+                    ? ""
+                    : "visually-hidden"
+                    }`}
+                >
+                  <div className="mb-3">
+                    <Widget
+                      src={props.widgets.widgetMetadataEditor}
+                      key={`metadata-editor-${jpath}`}
+                      props={useMemo(
+                        () => ({
+                          widgetPath,
+                          onChange: setMetadata,
+                        }),
+                        [widgetPath]
+                      )}
                     />
                   </div>
-                  <div className=" mb-3">^^ Props for debugging (in JSON)</div>
-                  {propsError && (
-                    <pre className="alert alert-danger">{propsError}</pre>
-                  )}{" "}
+                  <div className="mb-3">{commitButton}</div>
                 </div>
               </div>
               <div
-                className={`${
-                  tab === Tab.Metadata && props.widgets.widgetMetadataEditor
-                    ? ""
-                    : "visually-hidden"
-                }`}
-              >
-                <div className="mb-3">
-                  <Widget
-                    src={props.widgets.widgetMetadataEditor}
-                    key={`metadata-editor-${jpath}`}
-                    props={useMemo(
-                      () => ({
-                        widgetPath,
-                        onChange: setMetadata,
-                      }),
-                      [widgetPath]
-                    )}
-                  />
-                </div>
-                <div className="mb-3">{commitButton}</div>
-              </div>
-            </div>
-            <div
-              className={`${
-                tab === Tab.Widget ||
-                (layout === Layout.Split && tab !== Tab.Metadata)
+                className={`${tab === Tab.Widget ||
+                  (layout === Layout.Split && tab !== Tab.Metadata)
                   ? layoutClass
                   : "visually-hidden"
-              }`}
-            >
-              <div className="container">
-                <div className="row">
-                  <div className="position-relative">
-                    {renderCode ? (
-                      <Widget
-                        key={`${previewKey}-${jpath}`}
-                        config={widgetConfig}
-                        code={renderCode}
-                        props={parsedWidgetProps}
-                      />
-                    ) : (
-                      'Click "Preview" button to render the widget'
-                    )}
+                  }`}
+              >
+                <div className="container">
+                  <div className="row">
+                    <div className="position-relative">
+                      Console Output Section
+                      <div className="card mb-4">
+                        <div className="card-header">
+                          <h4>Console Output</h4>
+                        </div>
+                        <div
+                          className="card-body bg-dark text-light"
+                          style={{
+                            maxHeight: '300px',
+                            overflow: 'auto',
+                            fontFamily: 'monospace'
+                          }}
+                        >
+                          {output.length && output.map((log, index) => (
+                            <div key={index} className="mb-1">
+                              {`> ${log}`}
+                            </div>
+                          ))}
+                          {runError && (
+                            <div className="alert alert-danger">
+                              <h4>Error Running Model</h4>
+                              <pre>{runError}</pre>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              className={`${
-                tab === Tab.Metadata ? layoutClass : "visually-hidden"
-              }`}
-            >
-              <div className="container">
-                <div className="row">
-                  <div className="position-relative">
-                    <Widget
-                      key={`metadata-${jpath}`}
-                      src={props.widgets.widgetMetadata}
-                      props={useMemo(
-                        () => ({ metadata, accountId, widgetName }),
-                        [metadata, accountId, widgetName]
-                      )}
-                    />
+              <div
+                className={`${tab === Tab.Metadata ? layoutClass : "visually-hidden"
+                  }`}
+              >
+                <div className="container">
+                  <div className="row">
+                    <div className="position-relative">
+                      <Widget
+                        key={`metadata-${jpath}`}
+                        src={props.widgets.widgetMetadata}
+                        props={useMemo(
+                          () => ({ metadata, accountId, widgetName }),
+                          [metadata, accountId, widgetName]
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -928,7 +1030,6 @@ export default function EditorAIPage(props) {
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

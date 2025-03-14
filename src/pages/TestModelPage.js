@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useReadContract, useAccount } from 'wagmi';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { abi } from '../config/abi';
 import { Prism } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -15,6 +15,7 @@ export default function TestModelPage() {
   const [consoleLogs, setConsoleLogs] = useState([]);
   const [output, setOutput] = useState([]);
   const codeExecutionRef = useRef({});
+  const history = useHistory();
 
   // Simplified src calculation
   const srcValues = useMemo(() => {
@@ -110,6 +111,13 @@ export default function TestModelPage() {
     }
   };
 
+  // Edit model function
+  const editModel = async () => {
+    // Add code to edit model
+    console.log("data[1]",data[1]);
+    history.push('/editai', { data: data[1], name:"NeuronModel" });
+  }
+
   return (
     <div className="container p-5"> 
       {isLoading && <div>Loading model data...</div>}
@@ -132,8 +140,13 @@ export default function TestModelPage() {
             >
               {isRunning ? 'Running...' : 'Run Model'}
             </button>
+            <button
+              className="btn btn-info mx-2"
+              onClick={editModel}
+            >
+              {'Edit Model'}
+            </button>
           </div>
-
           {/* Console Output Section */}
             {output.length > 0 && (
                 <div className="card mb-4">
