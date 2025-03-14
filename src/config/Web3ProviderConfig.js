@@ -7,7 +7,7 @@ import main from "../components/documentation/Main";
 export const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [scroll, scrollSepolia],
+    chains: [scrollSepolia],
     transports: {
       // RPC URL for each chain
       // [mainnet.id]: http(
