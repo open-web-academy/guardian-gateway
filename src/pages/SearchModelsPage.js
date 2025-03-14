@@ -22,6 +22,7 @@ export default function SearchModelsPage() {
     enabled: Boolean(searchWallet) || Boolean(account?.address)
   });
 
+  const examples = ['JsNeuron', 'LinearRegression']
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchWallet) {
@@ -34,6 +35,23 @@ export default function SearchModelsPage() {
 
   return (
     <div className="container py-4">
+      <h1 className='fw-bold pb-4'>Examples</h1>
+      <div className="list-group">
+      {examples.map((modelName, index) => (
+              <Link
+                key={index}
+                to={`/aimodel/0x693C41ab52acd72B8fD2Fb5b8334D614e5de5dD5/${modelName}`}
+                className="list-group-item list-group-item-action"
+              >
+                <div className="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 className="mb-1">{modelName}</h5>
+                  </div>
+                  <span className="badge bg-success rounded-pill">→</span>
+                </div>
+              </Link>
+            ))}      
+      </div>
       <h1 className='fw-bold pb-4'>Search AI Models</h1>
       
       {!account.isConnected && (

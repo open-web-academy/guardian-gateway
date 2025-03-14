@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Logotype } from "../Logotype";
 import { NavigationButton } from "../NavigationButton";
 import { ArrowUpRight } from "../../icons/ArrowUpRight";
@@ -75,10 +75,21 @@ const StyledLogo = styled.img`
   margin-right: 10px;
 `;
 
+const Banner = styled.div`
+  width: 100%;
+  background-color: var(--white-light-2);
+  background-color: var(--green-vara-1);
+  padding: 10px 0 10px 0;
+  margin: 5px 0 0 0;
+  text-align: center;
+  font-weight: 700;
+`
+
 export function DesktopNavigation(props) {
   const varaAccount = useAccount();
   const varaApi = useApi();
-
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
     <StyledNavigation>
@@ -113,6 +124,11 @@ export function DesktopNavigation(props) {
           )}
         </div>
       </div>
+      {path === "/" && <Banner>
+        <p className="py-2 text-center m-0">Try our new AI model storage functionality, see the examples on this page.<br/>To test it use Scroll Sepolia.</p>
+        <Button variant="light" href="/searchmodel">Search models</Button>
+      </Banner>}
+      
     </StyledNavigation>
   );
 }
