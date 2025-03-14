@@ -35,7 +35,49 @@ const EditorLayoutKey = LsKey + "editorLayout:";
 const WidgetPropsKey = LsKey + "widgetProps:";
 const EditorUncommittedPreviewsKey = LsKey + "editorUncommittedPreviews:";
 
-const DefaultEditorCode = "return <div>Hello World</div>;";
+const DefaultEditorCode = String.raw`
+async function runModel() {
+  // Create a simple model
+  const model = tf.sequential();
+  model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
+
+  // Prepare the model for training
+  model.compile({
+    loss: "meanSquaredError",
+    optimizer: "sgd",
+  });
+
+  // Generate some synthetic data for training
+  const xs = tf.tensor2d([-1, 0, 1, 2, 3, 4], [6, 1]);
+  const ys = tf.tensor2d([-3, -1, 1, 3, 5, 7], [6, 1]);
+
+  // Train the model
+  await model.fit(xs, ys, {
+    epochs: 50,
+    callbacks: {
+      onEpochEnd: (epoch, logs) => {
+        console.log("Epoch "+(epoch + 1)+" - Loss: "+(logs.loss.toFixed(4)));      
+      },
+    },
+  });
+
+  // Make predictions
+  const testInput = tf.tensor2d([5, 6, 7], [3, 1]);
+  const predictions = model.predict(testInput);
+  console.log("Predictions:");
+  predictions.print();
+
+  // Cleanup
+  model.dispose();
+  xs.dispose();
+  ys.dispose();
+  testInput.dispose();
+  predictions.dispose();
+}
+
+// Run the model
+runModel().catch(console.error);
+`;
 
 const Tab = {
   Editor: "Editor",
@@ -54,14 +96,14 @@ export default function EditorAIPage(props) {
   const { widgetSrc } = useParams();
   const setWidgetSrc = props.setWidgetSrc;
   const location = useLocation();
-  const { data, name } = location.state || {};
+  let { data, name } = location.state || {};
   const [isRunning, setIsRunning] = useState(false);
   const [showModalCode, setShowModalCode] = useState(false)
   const [output, setOutput] = useState([]);
   const [localWidgetSrc, setLocalWidgetSrc] = useState(widgetSrc);
   const [code, setCode] = useState(DefaultEditorCode);
   const [path, setPath] = useState(undefined);
-  const [files, setFiles] = useState(undefined);
+  const [files, setFiles] = useState([]);
   const [lastPath, setLastPath] = useState(undefined);
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [showOpenModal, setShowOpenModal] = useState(false);
@@ -108,7 +150,29 @@ export default function EditorAIPage(props) {
 
   useEffect(() => {
     if (data) {
+      const newPath = toPath(Filetype.Widget, name);
+      const jNewPath = JSON.stringify(newPath);
+
       setCode(data);
+
+      setFiles((prevFiles) => {
+        const fileExists = prevFiles.some((file) => JSON.stringify(file) === jNewPath);
+        if (!fileExists) {
+          return [...prevFiles, newPath];
+        }
+        return prevFiles;
+      });
+
+      setPath(newPath);
+      setLastPath(newPath);
+
+      cache.localStorageSet(
+        StorageDomain,
+        {
+          type: StorageType.Files,
+        },
+        { files: [...files, newPath], lastPath: newPath }
+      );
     }
   }, [data, name]);
 
@@ -302,8 +366,11 @@ export default function EditorAIPage(props) {
 
   const openFile = useCallback(
     (path, code) => {
-      setPath(path);
-      addToFiles(path);
+      if(!name){
+        setPath(path);
+        addToFiles(path);
+      }
+      name = undefined;
       setMetadata(undefined);
       if (code !== undefined) {
         updateCode(path, code);
@@ -526,53 +593,53 @@ export default function EditorAIPage(props) {
   `;
 
   const runModel = async () => {
-      try {
-        setOutput([]);
-        setIsRunning(true);
-        // Log TensorFlow.js information safely
-        const tfVersion = tf?.version?.tfjs || 'unknown';
-        const backend = tf?.getBackend() || 'unknown';
-        const backends = tf?.engine()?.registeredBackends || [];
-  
-        setOutput(prev => [
-          ...prev,
-          `✅ Using TensorFlow.js version: ${tfVersion}`,
-          `📊 Backend: ${backend}`,
-          `🧮 Available backends: ${backends.join(', ') || 'none'}`
-        ]);
-  
-        // Configure console logging
-        const originalConsole = {
-          log: console.log,
-          error: console.error,
-          warn: console.warn
-        };
-        console.log = (...args) => {
-          setOutput(prev => [...prev, args.join(' ')]);
-          originalConsole.log(...args);
-        };
-        
-        console.error = (...args) => {
-          setOutput(prev => [...prev, `❌ ${args.join(' ')}`]);
-          originalConsole.error(...args);
-        };
-        codeExecutionRef.current.cleanup = () => {
-          Object.assign(console, originalConsole);
-          // Clean up any tensors
-          tf.disposeVariables();
-        };
-        // Execute the code with tf in scope
-        const executeCode = new Function('tf', code);
-        await executeCode(tf);
-      } catch (error) {
-        setOutput(prev => [
-          ...prev,
-          `❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`
-        ]);
-      } finally {
-        setIsRunning(false);
-      }
-    };
+    try {
+      setOutput([]);
+      setIsRunning(true);
+      // Log TensorFlow.js information safely
+      const tfVersion = tf?.version?.tfjs || 'unknown';
+      const backend = tf?.getBackend() || 'unknown';
+      const backends = tf?.engine()?.registeredBackends || [];
+
+      setOutput(prev => [
+        ...prev,
+        `✅ Using TensorFlow.js version: ${tfVersion}`,
+        `📊 Backend: ${backend}`,
+        `🧮 Available backends: ${backends.join(', ') || 'none'}`
+      ]);
+
+      // Configure console logging
+      const originalConsole = {
+        log: console.log,
+        error: console.error,
+        warn: console.warn
+      };
+      console.log = (...args) => {
+        setOutput(prev => [...prev, args.join(' ')]);
+        originalConsole.log(...args);
+      };
+
+      console.error = (...args) => {
+        setOutput(prev => [...prev, `❌ ${args.join(' ')}`]);
+        originalConsole.error(...args);
+      };
+      codeExecutionRef.current.cleanup = () => {
+        Object.assign(console, originalConsole);
+        // Clean up any tensors
+        tf.disposeVariables();
+      };
+      // Execute the code with tf in scope
+      const executeCode = new Function('tf', code);
+      await executeCode(tf);
+    } catch (error) {
+      setOutput(prev => [
+        ...prev,
+        `❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`
+      ]);
+    } finally {
+      setIsRunning(false);
+    }
+  };
 
   return (
     <>
@@ -783,7 +850,7 @@ export default function EditorAIPage(props) {
                       </a>
 
                       <button
-                        className="btn btn-success"
+                        className="btn btn-primary"
                         onClick={runModel}
                         disabled={isRunning}
                       >

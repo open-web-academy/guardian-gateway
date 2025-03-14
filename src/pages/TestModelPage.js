@@ -114,7 +114,6 @@ export default function TestModelPage() {
   // Edit model function
   const editModel = async () => {
     // Add code to edit model
-    console.log("data[1]",data[1]);
     history.push('/editai', { data: data[1], name:"NeuronModel" });
   }
 
