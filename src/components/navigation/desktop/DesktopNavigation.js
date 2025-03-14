@@ -125,8 +125,8 @@ export function DesktopNavigation(props) {
         </div>
       </div>
       {path === "/" && <Banner>
-        <p className="py-2 text-center m-0">Try our new AI model storage functionality, see the examples on this page.<br/>To test it use Scroll Sepolia.</p>
-        <Button variant="light" href="/searchmodel">Search models</Button>
+        <p className="py-2 text-center m-0">Try our new AI script storage functionality, see the examples on this page.<br/>To test it use Scroll Sepolia.</p>
+        <Button variant="light" href="/searchmodel">Search AI Scripts</Button>
       </Banner>}
       
     </StyledNavigation>
