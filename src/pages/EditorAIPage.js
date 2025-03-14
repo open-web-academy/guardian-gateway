@@ -52,19 +52,13 @@ const Layout = {
 export default function EditorAIPage(props) {
   useHashRouterLegacy();
   const { widgetSrc } = useParams();
-  const [output, setOutput] = useState([]);
-  const [localWidgetSrc, setLocalWidgetSrc] = useState(widgetSrc);
-  const history = useHistory();
   const setWidgetSrc = props.setWidgetSrc;
-  const account = useAccount()
   const location = useLocation();
   const { data, name } = location.state || {};
-
-  console.log(location.state);
   const [isRunning, setIsRunning] = useState(false);
-
   const [showModalCode, setShowModalCode] = useState(false)
-  const [loading, setLoading] = useState(false);
+  const [output, setOutput] = useState([]);
+  const [localWidgetSrc, setLocalWidgetSrc] = useState(widgetSrc);
   const [code, setCode] = useState(DefaultEditorCode);
   const [path, setPath] = useState(undefined);
   const [files, setFiles] = useState(undefined);
@@ -75,20 +69,15 @@ export default function EditorAIPage(props) {
   const [uncommittedPreviews, setUncommittedPreviews] = useState(
     ls.get(EditorUncommittedPreviewsKey) ?? true
   );
-  const [widgetConfig, setWidgetConfig] = useState(undefined);
-
-  const [renderCode, setRenderCode] = useState(code);
   const [widgetProps, setWidgetProps] = useState(
     ls.get(WidgetPropsKey) || "{}"
   );
-  const [parsedWidgetProps, setParsedWidgetProps] = useState({});
   const [propsError, setPropsError] = useState(null);
   const [metadata, setMetadata] = useState(undefined);
   const [forkDetails, setForkDetails] = useState(undefined);
   const near = useNear();
   const cache = useCache();
   const accountId = useAccountId();
-  const codeExecutionRef = useRef({});
   const [runError, setRunError] = useState(null);
 
   const [tab, setTab] = useState(Tab.Editor);
@@ -97,11 +86,8 @@ export default function EditorAIPage(props) {
   );
   const [previewKey, setPreviewKey] = useState("");
 
-  const testVara = `
-  declare namespace vara {
-    const varaAccount: Object = varaAccount2;
-  }
-  `
+  const codeExecutionRef = useRef({});
+  const history = useHistory();
 
 
   const handleModalCode = () => {
@@ -271,11 +257,8 @@ export default function EditorAIPage(props) {
     ls.set(WidgetPropsKey, widgetProps);
     try {
       const parsedWidgetProps = JSON.parse(widgetProps);
-      setParsedWidgetProps(parsedWidgetProps);
       setPropsError(null);
     } catch (e) {
-      setParsedWidgetProps({});
-      setPropsError(e.message);
     }
   }, [widgetProps]);
 
@@ -322,12 +305,10 @@ export default function EditorAIPage(props) {
       setPath(path);
       addToFiles(path);
       setMetadata(undefined);
-      setRenderCode(null);
       if (code !== undefined) {
         updateCode(path, code);
         checkForkDetails(path);
       } else {
-        setLoading(true);
         cache
           .asyncLocalStorageGet(StorageDomain, {
             path,
@@ -339,7 +320,6 @@ export default function EditorAIPage(props) {
             checkForkDetails(path);
           })
           .finally(() => {
-            setLoading(false);
           });
       }
     },
@@ -529,75 +509,10 @@ export default function EditorAIPage(props) {
 
   const layoutClass = layout === Layout.Split ? "col-lg-6" : "";
 
-  const onLayoutChange = useCallback(
-    (e) => {
-      const layout = e.target.value;
-      if (layout === Layout.Split && tab === Tab.Widget) {
-        setTab(Tab.Editor);
-      }
-      setLayout(layout);
-    },
-    [setLayout, tab, setTab]
-  );
-
-  const pathToSrc = useCallback(
-    (path) => {
-      return `${accountId}/${path?.type}/${path?.name}`;
-    },
-    [accountId]
-  );
-
-  const generateWidgetConfig = useCallback(
-    (uncommittedPreviews) => {
-      return uncommittedPreviews
-        ? {
-          redirectMap: Object.fromEntries(
-            Object.entries(allSaved)
-              .filter(([jpath, code]) => code !== true)
-              .map(([jpath, code]) => {
-                const path = JSON.parse(jpath);
-                return [
-                  pathToSrc(path),
-                  {
-                    code,
-                  },
-                ];
-              })
-          ),
-        }
-        : undefined;
-    },
-    [allSaved, pathToSrc]
-  );
-
   const widgetName = path?.name;
-
-  const commitButton = (
-    <CommitButton
-      className="btn btn-outline-success"
-      disabled={!widgetName}
-      near={near}
-      data={{
-        widget: {
-          [widgetName]: {
-            "": code,
-            metadata,
-          },
-        },
-      }}
-    >
-      Save
-    </CommitButton>
-  );
 
   const widgetPath = `${accountId}/${path?.type}/${path?.name}`;
   const jpath = JSON.stringify(path);
-
-  const renderPreview = (code) => {
-    setWidgetConfig(generateWidgetConfig(uncommittedPreviews));
-    setRenderCode(code);
-    setPreviewKey(`preview-${Date.now()}`);
-  };
 
   const Buttons = styled.div`
     display: flex;
@@ -611,66 +526,53 @@ export default function EditorAIPage(props) {
   `;
 
   const runModel = async () => {
-    try {
-      setOutput([]);
-      setIsRunning(true);
-
-      // Log TensorFlow.js information safely
-      const tfVersion = tf?.version?.tfjs || 'unknown';
-      const backend = tf?.getBackend() || 'unknown';
-      const backends = tf?.engine()?.registeredBackends || [];
-      console.log("---------------1");
-      setOutput(prev => [
-        ...prev,
-        `✅ Using TensorFlow.js version: ${tfVersion}`,
-        `📊 Backend: ${backend}`,
-        `🧮 Available backends: ${backends.join(', ') || 'none'}`
-      ]);
-
-      console.log("---------------2");
-      // Configure console logging
-      const originalConsole = {
-        log: console.log,
-        error: console.error,
-        warn: console.warn
-      };
-
-      console.log("---------------3");
-      console.log('originalConsole', originalConsole)
-
-      console.log = (...args) => {
-        setOutput(prev => [...prev, args.join(' ')]);
-        originalConsole.log(...args);
-
-      };
-      console.log("---------------4");
-      console.error = (...args) => {
-        setOutput(prev => [...prev, `❌ ${args.join(' ')}`]);
-        originalConsole.error(...args);
-      };
-      console.log("---------------5");
-      codeExecutionRef.current.cleanup = () => {
-        Object.assign(console, originalConsole);
-        // Clean up any tensors
-        tf.disposeVariables();
-      };
-
-      console.log("---------------6");
-      // Execute the code with tf in scope
-      console.log("code", code);
-      const executeCode = new Function('tf', code);
-      await executeCode(tf);
-      console.log("---------------7");
-    } catch (error) {
-      setOutput(prev => [
-        ...prev,
-        `❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`
-      ]);
-    } finally {
-      setIsRunning(false);
-      console.log("---------------8");
-    }
-  };
+      try {
+        setOutput([]);
+        setIsRunning(true);
+        // Log TensorFlow.js information safely
+        const tfVersion = tf?.version?.tfjs || 'unknown';
+        const backend = tf?.getBackend() || 'unknown';
+        const backends = tf?.engine()?.registeredBackends || [];
+  
+        setOutput(prev => [
+          ...prev,
+          `✅ Using TensorFlow.js version: ${tfVersion}`,
+          `📊 Backend: ${backend}`,
+          `🧮 Available backends: ${backends.join(', ') || 'none'}`
+        ]);
+  
+        // Configure console logging
+        const originalConsole = {
+          log: console.log,
+          error: console.error,
+          warn: console.warn
+        };
+        console.log = (...args) => {
+          setOutput(prev => [...prev, args.join(' ')]);
+          originalConsole.log(...args);
+        };
+        
+        console.error = (...args) => {
+          setOutput(prev => [...prev, `❌ ${args.join(' ')}`]);
+          originalConsole.error(...args);
+        };
+        codeExecutionRef.current.cleanup = () => {
+          Object.assign(console, originalConsole);
+          // Clean up any tensors
+          tf.disposeVariables();
+        };
+        // Execute the code with tf in scope
+        const executeCode = new Function('tf', code);
+        await executeCode(tf);
+      } catch (error) {
+        setOutput(prev => [
+          ...prev,
+          `❌ Error: ${error instanceof Error ? error.message : 'Unknown error'}`
+        ]);
+      } finally {
+        setIsRunning(false);
+      }
+    };
 
   return (
     <>
@@ -921,30 +823,6 @@ export default function EditorAIPage(props) {
                     </Buttons>
                   </div>
                 </div>
-                <div className={`${tab === Tab.Props ? "" : "visually-hidden"}`}>
-                  <div
-                    className="d-flex flex-column overflow-hidden"
-                    style={{ height: "80vh" }}
-                  >
-                    <div
-                      className="mb-2 flex-grow-1 border"
-                      style={{ minHeight: 1 }}
-                    >
-                      <Editor
-                        value={widgetProps}
-                        defaultLanguage="json"
-                        onChange={(props) => setWidgetProps(props)}
-                        wrapperProps={{
-                          onBlur: () => reformatProps(widgetProps),
-                        }}
-                      />
-                    </div>
-                    <div className=" mb-3">^^ Props for debugging (in JSON)</div>
-                    {propsError && (
-                      <pre className="alert alert-danger">{propsError}</pre>
-                    )}{" "}
-                  </div>
-                </div>
                 <div
                   className={`${tab === Tab.Metadata && props.widgets.widgetMetadataEditor
                     ? ""
@@ -964,7 +842,6 @@ export default function EditorAIPage(props) {
                       )}
                     />
                   </div>
-                  <div className="mb-3">{commitButton}</div>
                 </div>
               </div>
               <div
@@ -977,7 +854,6 @@ export default function EditorAIPage(props) {
                 <div className="container">
                   <div className="row">
                     <div className="position-relative">
-                      Console Output Section
                       <div className="card mb-4">
                         <div className="card-header">
                           <h4>Console Output</h4>
