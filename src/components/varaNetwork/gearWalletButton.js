@@ -6,7 +6,8 @@ import Identicon from '@polkadot/react-identicon';
 import { useStore } from './state'
 import { WalletModal } from '@gear-js/wallet-connect';
 import '@gear-js/vara-ui/dist/style.css';
-
+//To do:
+//Add user balance when the user selected wallet
 
 export function GearWalletButton() {
   const varaAccount = useAccount();
