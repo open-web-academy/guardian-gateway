@@ -49,6 +49,7 @@ import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import ContractReader from "./components/ContractReader";
 import TestModelPage from "./pages/TestModelPage";
 import SearchModelsPage from "./pages/SearchModelsPage";
+import Navbar from "./components/navigation/Navbar";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://social.near-docs.io/";
@@ -225,41 +226,42 @@ function App(props) {
                   <Router basename={process.env.PUBLIC_URL}>
                     <Switch>
                       <Route path={"/signin"}>
-                        <NavigationWrapper {...passProps} />
+                        <Navbar/>
                         <SignInPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/embed/:widgetSrc*"}>
+                        <Navbar/>
                         <EmbedPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/edit/:widgetSrc*"}>
-                        <NavigationWrapper {...passProps} />
+                        <Navbar/>
                         <EditorPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/editai/:widgetSrc*"}>
-                        <NavigationWrapper {...passProps} />
+                        <Navbar/>
                         <EditorAIPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/docs/:docsRoute*"}>
-                        <NavigationWrapper {...passProps} />
+                        <Navbar/>
                         <Main {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/searchmodel"}>
-                        <NavigationWrapper {...passProps} />
+                        <Navbar/>
                         <SearchModelsPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/aimodel/:widgetSrc*"}>
-                        <NavigationWrapper {...passProps} />
+                        <Navbar/>
                         <TestModelPage {...passProps} />
                         <Footer/>
                       </Route>
                       <Route path={"/:widgetSrc*"}>
-                        <NavigationWrapper {...passProps} />
+                        <Navbar/>
                         <ViewPage {...passProps} />
                         <Footer/>
                       </Route>

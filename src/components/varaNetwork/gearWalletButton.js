@@ -31,43 +31,43 @@ export function GearWalletButton() {
     <style type="text/css">
     {`
     .btn-login {
-      background-color: #313438;
-      color: white;
+      background-color: rgba(248,173,24,255);
+      color: #000000;
       font-size: 16px;
       padding: 10px;
       border-style: solid;
       border-radius: 4px;
       border-width: 1px;
-      border-color: var(--slate-vara-1);
+      border-color: rgba(248,173,24,255);
       font-weight: var(--font-weight-bold);
     }
     .btn-login:hover {
-        background-color: white;
-        color: black;
+        background-color: rgba(184, 128, 18, 255);
+        color: #ffffff;
         border-style: solid;
         border-radius: 4px;
         border-width: 1px;
-        border-color: var(--slate-vara-1);
+        border-color: rgba(184, 128, 18, 255);
       }
 
       .btn-varaWallet {
-        background-color: #313438;
-        color: white;
+        background-color: rgba(248,173,24,255);
+        color: #000000;
         font-size: 16px;
         padding: 10px;
         border-style: solid;
         border-radius: 4px;
         border-width: 1px;
-        border-color: var(--slate-vara-1);
+        border-color: rgba(248,173,24,255);
         font-weight: var(--font-weight-bold);
       }
       .btn-varaWallet:hover {
-          background-color: white;
-          color: black;
+          background-color: rgba(184, 128, 18, 255);
+          color: #ffffff;
           border-style: solid;
           border-radius: 4px;
           border-width: 1px;
-          border-color: var(--slate-vara-1);
+          border-color: rgba(184, 128, 18, 255);
         }
       .btn-varaWallet:hover::after {
           content: "Logout";
@@ -80,11 +80,10 @@ export function GearWalletButton() {
             <Identicon value={loggedAccount.address} size={24} theme={"polkadot"}/>
             <p className="fw-semibold m-0">{loggedAccount.meta.name}</p>
           </Button>
-          {/* <p>{loggedAccount.balance.value} Vara</p> */}
         </div>
       ) : (
         <Button variant="login" onClick={modalShow?() => setModalShow(false):() => setModalShow(true)}>
-        {modalShow? "Close modal" : "Connect Vara Wallet"}
+        {modalShow? "Close Modal" : "Connect Vara Wallet"}
         </Button>
       )}
       {modalShow && <WalletModal theme='vara' close={() => setModalShow(false)} />}
