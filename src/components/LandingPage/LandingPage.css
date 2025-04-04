@@ -1,0 +1,354 @@
+/* General Styles */
+.landing-page {
+  overflow-x: hidden;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+  z-index: 1;
+}
+
+.hero-logo {
+  max-width: 80%;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+}
+
+.hero-button {
+  background-color: rgba(248,173,24,255);
+  color: #000000;
+  font-size: 18px;
+  padding: 15px 30px;
+  border: 1px solid rgba(248,173,24,255);
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  user-select: none;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1000;
+}
+
+.hero-button:hover {
+  background-color: rgba(184, 128, 18, 255);
+  color: #ffffff;
+  border-color: rgba(184, 128, 18, 255);
+  text-decoration: none;
+}
+
+/* Feature Cards */
+.feature-card {
+  background: #1e1e1e;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+  color: #ffffff;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  background: #2a2a2a;
+}
+
+.feature-icon {
+  color: #4a90e2;
+}
+
+.feature-card h3 {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.feature-card p {
+  color: #e0e0e0;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+  background-color: rgba(248,173,24,255);
+  padding: 80px 0;
+  color: #000000;
+}
+
+.how-it-works-section h2 {
+  color: #000000;
+}
+
+.step-card {
+  background: #1e1e1e;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+  color: #ffffff;
+}
+
+.step-card:hover {
+  transform: translateY(-10px);
+  background: #2a2a2a;
+}
+
+.step-card h3 {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.step-card p {
+  color: #e0e0e0;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: rgba(248,173,24,255);
+  color: #000000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: #ffffff;
+}
+
+.cta-section h2 {
+  color: #ffffff;
+}
+
+.cta-section p {
+  color: #e0e0e0;
+}
+
+.cta-button {
+  background-color: rgba(248,173,24,255);
+  color: #000000;
+  font-size: 18px;
+  padding: 15px 30px;
+  border: 1px solid rgba(248,173,24,255);
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: rgba(184, 128, 18, 255);
+  color: #ffffff;
+  border-color: rgba(184, 128, 18, 255);
+}
+
+/* Animations */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Statistics Section */
+.try-guardian-section {
+  background-color: rgba(248,173,24,255);
+  color: #000000;
+  padding: 80px 0;
+}
+
+.try-guardian-section h2 {
+  color: #000000;
+  margin-bottom: 50px;
+}
+
+.component-card {
+  background: #1e1e1e;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+  padding: 30px 20px;
+  color: #ffffff;
+}
+
+.component-card:hover {
+  transform: translateY(-10px);
+  background: #2a2a2a;
+}
+
+.component-icon {
+  color: rgba(248,173,24,255);
+  margin-bottom: 20px;
+}
+
+.component-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.component-label {
+  color: #e0e0e0;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 50px 0;
+  }
+  
+  .hero-logo {
+    max-width: 100%;
+    margin-top: 30px;
+  }
+  
+  .feature-card, .step-card {
+    margin-bottom: 20px;
+  }
+}
+
+/* Gateway Section */
+.gateway-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.gateway-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(248,173,24,0.05) 0%, transparent 70%);
+  z-index: 1;
+}
+
+.gateway-section h2 {
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.gateway-card {
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: all 0.4s ease;
+  color: #ffffff;
+  border: 1px solid rgba(248,173,24,0.1);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.gateway-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(248,173,24,0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.gateway-card:hover {
+  transform: translateY(-8px);
+  background: rgba(42, 42, 42, 0.9);
+  box-shadow: 0 12px 35px rgba(248,173,24,0.15);
+  border: 1px solid rgba(248,173,24,0.2);
+}
+
+.gateway-card:hover::before {
+  opacity: 1;
+}
+
+.gateway-icon {
+  color: rgba(248,173,24,255);
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 3;
+}
+
+.gateway-card:hover .gateway-icon {
+  transform: scale(1.1);
+  color: rgba(248,173,24,255);
+}
+
+.gateway-card h3 {
+  color: #ffffff;
+  font-weight: bold;
+  position: relative;
+  z-index: 3;
+  transition: all 0.3s ease;
+}
+
+.gateway-card:hover h3 {
+  color: rgba(248,173,24,255);
+}
+
+.gateway-card p {
+  color: #e0e0e0;
+  position: relative;
+  z-index: 3;
+}
+
+.eternacode-link {
+  color: rgba(248,173,24,255);
+  font-weight: bold;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.eternacode-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: rgba(248,173,24,255);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.eternacode-link:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.eternacode-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+} 

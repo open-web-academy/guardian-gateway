@@ -11,6 +11,7 @@ console.log(window.location.hostname)
 
 export const NetworkId = window.location.hostname in TestnetDomains ? "testnet" : "mainnet";
 export const WssVara = window.location.hostname in TestnetDomains ? "wss://testnet.vara.network" : "wss://rpc.vara.network";
+export const GuardianSrc = window.location.hostname in TestnetDomains ? "yairnava.testnet/widget/Staking-Container" : "yairnava.testnet/widget/Staking-Container";
 
 const TestnetWidgets = {
   image: "eugenethedream/widget/Image",

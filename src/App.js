@@ -50,6 +50,7 @@ import ContractReader from "./components/ContractReader";
 import TestModelPage from "./pages/TestModelPage";
 import SearchModelsPage from "./pages/SearchModelsPage";
 import Navbar from "./components/navigation/Navbar";
+import LandingPage from "./components/LandingPage/LandingPage";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://social.near-docs.io/";
@@ -260,9 +261,9 @@ function App(props) {
                         <TestModelPage {...passProps} />
                         <Footer/>
                       </Route>
-                      <Route path={"/:widgetSrc*"}>
+                      <Route path={"/"}>
                         <Navbar/>
-                        <ViewPage {...passProps} />
+                        <LandingPage/>
                         <Footer/>
                       </Route>
                     </Switch>
