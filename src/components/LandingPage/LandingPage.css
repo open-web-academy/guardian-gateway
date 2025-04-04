@@ -11,6 +11,7 @@
   color: #ffffff;
   position: relative;
   overflow: hidden;
+  z-index: 2;
 }
 
 .hero-section::before {
@@ -46,7 +47,7 @@
   user-select: none;
   line-height: 1.5;
   position: relative;
-  z-index: 1000;
+  z-index: 3;
 }
 
 .hero-button:hover {
@@ -175,14 +176,33 @@
 
 /* Statistics Section */
 .try-guardian-section {
-  background-color: rgba(248,173,24,255);
-  color: #000000;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: #ffffff;
   padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.try-guardian-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(248,173,24,0.05) 0%, transparent 70%);
+  z-index: 1;
 }
 
 .try-guardian-section h2 {
-  color: #000000;
-  margin-bottom: 50px;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.try-guardian-section .d-flex {
+  position: relative;
+  z-index: 2;
 }
 
 .component-card {
