@@ -10,20 +10,23 @@ const Navbar = (props) => {
   const [balance, setBalance] = useState(null);
   const accountBalance = useBalance(account?.address);
   const [ apiReady, setApiReady ] = useState(false);
-  const formatBalance  = useBalanceFormat();
+  //const formatBalance  = useBalanceFormat();
+  const { getFormattedBalance } = useBalanceFormat();
   if(isApiReady && !apiReady){
     setApiReady(true);
   }
   useEffect(() => {
-    if(isApiReady){
+    if(isApiReady && accountBalance.isBalanceReady){
       console.log("cargo api");
       console.log("balance", accountBalance);
+      console.log("formatBalance", getFormattedBalance(accountBalance.balance));
+      //const formattedBalance = accountBalance.isBalanceReady ? getFormattedBalance(accountBalance) : undefined
       //console.log("formatBalance", formatBalance.getFormattedBalance(accountBalance));
       //const { getFormattedBalance } = useBalanceFormat();
       //const formattedBalance = accountBalance ? formatBalance.getFormattedBalance(accountBalance) : undefined
       //setBalance(formattedBalance);
     }
-  }, [apiReady, accountBalance]);
+  }, [apiReady, accountBalance.isBalanceReady]);
   
   //const formattedBalance = balance ? getFormattedBalance(balance) : undefined
   return (
