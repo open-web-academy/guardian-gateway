@@ -36,7 +36,7 @@ import { NetworkId, Widgets, WssVara } from "./data/widgets";
 import { useEthersProviderContext } from "./data/web3";
 import SignInPage from "./pages/SignInPage";
 import { isValidAttribute } from "dompurify";
-import { ApiProvider, AccountProvider, useAccount as varaAccount } from "@gear-js/react-hooks";
+import { ApiProvider, AccountProvider, useAccount as varaAccount , useApi } from "@gear-js/react-hooks";
 import { GearWalletButton } from "./components/varaNetwork/gearWalletButton"
 import { VaraProvider } from "./components/navigation/VaraProvider";
 import { VaraNetwork } from './components/varaNetwork/VaraNetwork'
@@ -68,10 +68,11 @@ function App(props) {
   const { initNear } = useInitNear();
   const near = useNear();
   const account = useAccount();
+  const { isApiReady } = useApi();
+  const { isAccountReady } = varaAccount();
 
   const accountId = account.accountId;
-
-
+  const isAppReady = isApiReady && isAccountReady;
 
   useEffect(() => {
     initNear &&
@@ -226,46 +227,12 @@ function App(props) {
                 <EthersProviderContext.Provider value={ethersProviderContext}>
                   <Router basename={process.env.PUBLIC_URL}>
                     <Switch>
-                      <Route path={"/signin"}>
-                        <Navbar/>
-                        <SignInPage {...passProps} />
-                        <Footer/>
-                      </Route>
-                      <Route path={"/embed/:widgetSrc*"}>
-                        <Navbar/>
-                        <EmbedPage {...passProps} />
-                        <Footer/>
-                      </Route>
-                      <Route path={"/edit/:widgetSrc*"}>
-                        <Navbar/>
-                        <EditorPage {...passProps} />
-                        <Footer/>
-                      </Route>
-                      <Route path={"/editai/:widgetSrc*"}>
-                        <Navbar/>
-                        <EditorAIPage {...passProps} />
-                        <Footer/>
-                      </Route>
-                      <Route path={"/docs/:docsRoute*"}>
-                        <Navbar/>
-                        <Main {...passProps} />
-                        <Footer/>
-                      </Route>
-                      <Route path={"/searchmodel"}>
-                        <Navbar/>
-                        <SearchModelsPage {...passProps} />
-                        <Footer/>
-                      </Route>
-                      <Route path={"/aimodel/:widgetSrc*"}>
-                        <Navbar/>
-                        <TestModelPage {...passProps} />
-                        <Footer/>
-                      </Route>
-                      <Route path={"/"}>
-                        <Navbar/>
-                        <LandingPage/>
-                        <Footer/>
-                      </Route>
+                        <Route path={"/"}>
+                          <Navbar isAppReady={isAppReady}/>
+                          <LandingPage isAppReady={isAppReady}/>
+                          <Footer/>
+                        </Route>
+                      
                     </Switch>
                   </Router>
                 </EthersProviderContext.Provider>
