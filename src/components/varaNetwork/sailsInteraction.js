@@ -1,12 +1,29 @@
-import React from "react";
-import { useAccount } from '@gear-js/react-hooks';
+import React, { useState, useEffect } from "react";
+import { useAccount, useBalance, useBalanceFormat, useApi } from '@gear-js/react-hooks';
 import {useMulticontractSails} from '../../hooks/useMulticontractSails'
 import Swal from "sweetalert2";
 
 export const SailsInteraction = ({ trigger, children }) => {
   const varaAccount = useAccount();
-  
+  const { isApiReady } = useApi();
+  const accountBalance = useBalance(varaAccount.account?.address);
+  const { getFormattedBalance } = useBalanceFormat();
   const { sails } = useMulticontractSails();
+  const [balance, setBalance] = useState(null);
+  const [apiReady, setApiReady] = useState(false);
+  if(isApiReady && !apiReady){
+    setApiReady(true);
+  }
+  useEffect(() => {
+    if(isApiReady && accountBalance.isBalanceReady){
+      setBalance(getFormattedBalance(accountBalance.balance));
+    }
+  }, [apiReady, accountBalance.balance]);
+
+  const getBalance = () =>{
+    return balance;
+  }
+
   const signTransaction = async( data ) =>{
     console.log(data)
     try{
@@ -69,7 +86,8 @@ export const SailsInteraction = ({ trigger, children }) => {
   const sailsInteraction = {
     signTransaction,
     getAccountInfo,
-    sendQuery
+    sendQuery,
+    getBalance
   };
   return (
     <>

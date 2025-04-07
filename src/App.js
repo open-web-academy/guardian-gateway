@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import EditorPage from "./pages/EditorPage";
 import EditorAIPage from "./pages/EditorAIPage";
 import ViewPage from "./pages/ViewPage";
-import ViewModelAIPage from './pages/ViewModelAIPage'
+import ViewModelAIPage from "./pages/ViewModelAIPage";
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
 import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
@@ -36,13 +36,18 @@ import { NetworkId, Widgets, WssVara } from "./data/widgets";
 import { useEthersProviderContext } from "./data/web3";
 import SignInPage from "./pages/SignInPage";
 import { isValidAttribute } from "dompurify";
-import { ApiProvider, AccountProvider, useAccount as varaAccount , useApi } from "@gear-js/react-hooks";
-import { GearWalletButton } from "./components/varaNetwork/gearWalletButton"
+import {
+  ApiProvider,
+  AccountProvider,
+  useAccount as varaAccount,
+  useApi,
+} from "@gear-js/react-hooks";
+import { GearWalletButton } from "./components/varaNetwork/gearWalletButton";
 import { VaraProvider } from "./components/navigation/VaraProvider";
-import { VaraNetwork } from './components/varaNetwork/VaraNetwork'
-import {ReadState} from './components/varaNetwork/ReadState'
-import Main from './components/documentation/Main'
-import {config} from './config/Web3ProviderConfig'
+import { VaraNetwork } from "./components/varaNetwork/VaraNetwork";
+import { ReadState } from "./components/varaNetwork/ReadState";
+import Main from "./components/documentation/Main";
+import { config } from "./config/Web3ProviderConfig";
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
@@ -116,28 +121,28 @@ function App(props) {
             return <VaraProvider {...props} />;
           },
           VaraNetwork: (props) => {
-            return <VaraNetwork {...props}/>;
+            return <VaraNetwork {...props} />;
           },
           "VaraNetwork.Account": (props) => {
-            return <VaraNetwork.Account {...props}/>;
+            return <VaraNetwork.Account {...props} />;
           },
           "VaraNetwork.Wrapper": (props) => {
-            return <VaraNetwork.Wrapper {...props}/>;
+            return <VaraNetwork.Wrapper {...props} />;
           },
           "VaraNetwork.Provider": (props) => {
-            return <VaraNetwork.Provider {...props}/>;
+            return <VaraNetwork.Provider {...props} />;
           },
           "VaraNetwork.Interaction": (props) => {
-            return <VaraNetwork.Interaction {...props}/>;
+            return <VaraNetwork.Interaction {...props} />;
           },
           "VaraNetwork.ReadState": (props) => {
-            return <VaraNetwork.ReadState {...props}/>;
+            return <VaraNetwork.ReadState {...props} />;
           },
           "VaraNetwork.Identicon": (props) => {
-            return <VaraNetwork.Identicon {...props}/>
+            return <VaraNetwork.Identicon {...props} />;
           },
           "VaraNetwork.SailsInteraction": (props) => {
-            return <VaraNetwork.SailsInteraction {...props}/>
+            return <VaraNetwork.SailsInteraction {...props} />;
           },
         },
         config: {
@@ -227,12 +232,11 @@ function App(props) {
                 <EthersProviderContext.Provider value={ethersProviderContext}>
                   <Router basename={process.env.PUBLIC_URL}>
                     <Switch>
-                        <Route path={"/"}>
-                          <Navbar isAppReady={isAppReady}/>
-                          <LandingPage isAppReady={isAppReady}/>
-                          <Footer/>
-                        </Route>
-                      
+                      <Route path={"/"}>
+                        <Navbar isAppReady={isAppReady} />
+                        <LandingPage isAppReady={isAppReady} />
+                        <Footer />
+                      </Route>
                     </Switch>
                   </Router>
                 </EthersProviderContext.Provider>

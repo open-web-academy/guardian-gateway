@@ -17,16 +17,9 @@ const Navbar = (props) => {
   }
   useEffect(() => {
     if(isApiReady && accountBalance.isBalanceReady){
-      console.log("cargo api");
-      console.log("balance", accountBalance);
-      console.log("formatBalance", getFormattedBalance(accountBalance.balance));
-      //const formattedBalance = accountBalance.isBalanceReady ? getFormattedBalance(accountBalance) : undefined
-      //console.log("formatBalance", formatBalance.getFormattedBalance(accountBalance));
-      //const { getFormattedBalance } = useBalanceFormat();
-      //const formattedBalance = accountBalance ? formatBalance.getFormattedBalance(accountBalance) : undefined
-      //setBalance(formattedBalance);
+      setBalance(getFormattedBalance(accountBalance.balance));
     }
-  }, [apiReady, accountBalance.isBalanceReady]);
+  }, [apiReady, accountBalance.balance]);
   
   //const formattedBalance = balance ? getFormattedBalance(balance) : undefined
   return (
@@ -45,7 +38,7 @@ const Navbar = (props) => {
         {/* Balance y Botón a la derecha */}
         <div className="ms-auto d-flex align-items-center gap-3">
           {balance !== null && (
-            <span className="text-light fw-bold">{} VARA</span>
+            <span className="text-light fw-bold">{balance.value} {balance.unit}</span>
           )}
           <GearWalletButton/>
         </div>
